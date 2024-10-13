@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
+from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -10,15 +11,17 @@ from django.contrib.auth.decorators import login_required
 ## Función para gestionar el registro de usuarios.
 def registroUsuarios(request):
     if request.method == 'POST':
-        formulario = UserCreationForm(request.POST)
-        if formulario.is_valid():
-            usuario = formulario.save()
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            usuario = form.save()
             login(request, usuario) ## Autentica el usuario post registro
-            return redirect('home')
+            return redirect('login')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
         
     return render(request, 'sesiones/registro.html', {'form': form})
+
+
 
 ## Función para gestionar el inicio de sesion
 class CustomLoginView(LoginView):

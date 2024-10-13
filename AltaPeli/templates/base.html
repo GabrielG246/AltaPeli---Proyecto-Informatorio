@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{% static 'css/globals.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/lista_pelicula.css' %}">
+    <link rel="stylesheet" href="{% static 'css/registro.css' %}">
 
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,8 +46,8 @@
         <div class="base__header_user">
             {% if True %}
             <ul>
-                <li><a href="">Ingresar</a></li>
-                <li><a href="">Registrarse</a></li>
+                <li><a href="{% url 'login' %}">Ingresar</a></li>
+                <li><a href="{% url 'registro' %}">Registrarse</a></li>
             </ul>
             {% else %}
             <ul>
