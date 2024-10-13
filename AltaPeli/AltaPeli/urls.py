@@ -20,8 +20,12 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+from .views import Inicio_View
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', Inicio_View),
     path('sesiones/', include('apps.Sesiones.urls')),
     path('listas/', include('apps.Listas.urls')),
     path('peliculas_series/', include('apps.Peliculas_Series.urls')),

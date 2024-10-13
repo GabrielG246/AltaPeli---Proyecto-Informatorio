@@ -32,6 +32,13 @@ class PeliculaSerie(models.Model):
     duracion = models.IntegerField()
     anio_estreno = models.SmallIntegerField()
     director = models.ForeignKey(Director, on_delete=models.CASCADE)
+    trailer_url= models.URLField(max_length=500)
+    portada_img= models.ImageField(
+        upload_to="peliculas/",
+        blank=True,
+        null=True,
+        default="peliculas/Pelicula_Default.png"
+    )
 
     def __str__(self):
         return self.nombre
