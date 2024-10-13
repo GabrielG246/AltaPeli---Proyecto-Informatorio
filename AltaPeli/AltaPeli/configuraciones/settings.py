@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# URLS
+#LOGIN_URL = '././apps//login/'  # URL de logueo
+LOGIN_REDIRECT_URL = '/'  # URL a la que se redirige después de iniciar sesión
+
 
 # Application definition
 
