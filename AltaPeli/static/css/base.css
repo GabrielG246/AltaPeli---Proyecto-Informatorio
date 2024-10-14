@@ -8,6 +8,7 @@
     align-items: center;
     position: fixed;
     top: 0;
+    z-index: 100;
 
     & .base__header_image-contianer {
         height: 80px;
@@ -111,4 +112,5 @@
     background-color: var(--white);
     margin-top: 80px;
     min-height: 100vh;
+    z-index: 99;
 }

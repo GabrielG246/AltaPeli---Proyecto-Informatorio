@@ -3,6 +3,8 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.PeliculasSeriesView),
-    path('crear_contenido/', views.VistaCrearContenido.as_view(), name="crear_contenido")
+    path('<int:pk>/', views.VistaListarContenido, name="listar_contenido"),
+    path('crear_contenido/', views.AdminVistaCrearContenido.as_view(), name="admin_crear_contenido"),
+    path('eliminar_contenido/<int:pk>/', views.AdminVistaEliminarContenido.as_view(), name="admin_eliminar_contenido"),
+    path('listado_contenido/', views.AdminVistaListarContenido, name="admin_listar_contenido")
 ]

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'AltaPeli',
     'apps.Actores_Directores',
     'apps.Peliculas_Series',
-    'apps.Sesiones'
+    'apps.Sesiones',
+    
 
 ]
 
