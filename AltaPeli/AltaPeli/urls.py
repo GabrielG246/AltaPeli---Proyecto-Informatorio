@@ -25,7 +25,7 @@ from .views import Inicio_View
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', Inicio_View),
+    path('', Inicio_View, name="PaginaPrincipal"),
     path('sesiones/', include('apps.Sesiones.urls')),
     path('listas/', include('apps.Listas.urls')),
     path('peliculas_series/', include('apps.Peliculas_Series.urls')),

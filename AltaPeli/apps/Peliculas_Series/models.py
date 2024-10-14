@@ -26,13 +26,17 @@ class Tipo(models.Model):
 
 # Modelo Pelicula/Serie
 class PeliculaSerie(models.Model):
-    nombre = models.CharField(max_length=255)
-    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE)
-    genero = models.ForeignKey(Genero, on_delete=models.CASCADE)
-    duracion = models.IntegerField()
-    anio_estreno = models.SmallIntegerField()
-    director = models.ForeignKey(Director, on_delete=models.CASCADE)
-    trailer_url= models.URLField(max_length=500)
+    nombre = models.CharField(max_length=255, blank=False)
+    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE, blank=False)
+    genero = models.ForeignKey(Genero, on_delete=models.CASCADE, blank=False)
+    duracion = models.IntegerField(default=0)
+    anio_estreno = models.DateField()
+    director = models.ForeignKey(Director, on_delete=models.CASCADE, blank=False)
+    trailer_url= models.URLField(
+        max_length=500,
+        default="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        blank=True
+        )
     portada_img= models.ImageField(
         upload_to="peliculas/",
         blank=True,
