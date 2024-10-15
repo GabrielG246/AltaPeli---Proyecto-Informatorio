@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
+from django.views import generic
+from django.urls import reverse_lazy
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 
