@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'apps.Actores_Directores',
     'apps.Peliculas_Series',
     'apps.Sesiones',
-    
-
 ]
 
     #'apps.Actores_Directores',
