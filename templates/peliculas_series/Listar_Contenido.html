@@ -1,11 +1,37 @@
 {% extends 'base.html' %}
 
-{% block titulo %} AltaPeli {{titulo}}s {% endblock %}
+{% block titulo %} AltaPeli {{titulo}} {% endblock %}
 
 {% block contenido %}
 
-<div>
-    <h2>{{titulo}}s</h2>
+<div class="d-flex flex-column align-items-center w-75">
+    <h2>{{titulo}}</h2>
+
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            {% for contenido in contenidos %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center mb-4">
+                <div class="card" style="max-width: 400px; width: 100%;">
+                    <a href="{% url 'detalle_contenido' contenido.pk %}">
+                        <img class="card-img-top" src="{{ contenido.portada_img.url }}" alt="Title" style="max-height: 380px;"/>
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ contenido.nombre }}</h4>
+    
+                        {% if titulo == "Series" %}
+                            <p class="card-text">Temporadas: {{ contenido.duracion }} </p>
+                        {% else %}
+                            <p class="card-text">Duración: {{ contenido.duracion }} Minutos </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    
 </div>
 
 {% endblock %}

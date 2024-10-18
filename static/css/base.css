@@ -46,7 +46,7 @@
                 font-weight: 500;
                 text-decoration: none;
                 color: var(--white);
-                font-size: 2em;
+                font-size: 1.5em;
                 font-family: var(--primary-font);
             }
 
@@ -78,7 +78,7 @@
                     font-weight: 500;
                     text-decoration: none;
                     color: var(--white);
-                    font-size: 2em;
+                    font-size: 1.5em;
                     font-family: var(--primary-font);
                 }
             }

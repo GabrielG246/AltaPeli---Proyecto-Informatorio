@@ -11,6 +11,12 @@ from apps.Actores_Directores.models import Director
 
 # Create your views here.
 def PeliculasSeriesView(request):
+    contenido= PeliculaSerie.objects.all()
+    peliculas= PeliculaSerie.objects.filter(tipo_id=1)
+    series= PeliculaSerie.objects.filter(tipo_id=2)
+    
+    print(peliculas)
+    print(series)
     return render(request, 'peliculas_series/Listado.html')
 
 # Vista para Formulario (CrearContenido)
@@ -51,5 +57,11 @@ def VistaListarContenido(request, pk):
     contenido= PeliculaSerie.objects.filter(tipo_id=pk)
     tipo= Tipo.objects.filter(id=pk)
     
-    context= {'contenido': contenido, 'titulo': tipo[0]}
+    context= {'contenidos': contenido, 'titulo': tipo[0]}
     return render(request, 'peliculas_series/Listar_Contenido.html', context)
+
+def VistaDetalleContenido(request, pk):
+    contenido= PeliculaSerie.objects.filter(id=pk)
+    context= {'contenido': contenido}
+    
+    return render(request, 'peliculas_Series/Detalle_Contenido.html', context)
