@@ -1,46 +1,69 @@
+# Librerias para registro
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth import login
-from django.contrib.auth.views import LoginView
-from django.views import generic
-from django.urls import reverse_lazy
-from .forms import CustomUserCreationForm
+from .forms import FormularioRegistroUsuario, FormularioInicioSesion, FormularioPerfilUsuario
+#Librerias para Login
+from django.contrib.auth import authenticate, login
+#Librerias para el perfil de usuario
 from django.contrib.auth.decorators import login_required
 
 
-
 ## Función para gestionar el registro de usuarios.
-def registroUsuarios(request):
+def registro(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        print("se lo damos en 3")
+        form = FormularioRegistroUsuario(request.POST, request.FILES)
         if form.is_valid():
-            usuario = form.save()
-            login(request, usuario) ## Autentica el usuario post registro
+            print("Yacasi")
+            form.save()
+            usuario = form.cleaned_data.get('usuario')
+            print("Espera")
             return redirect('login')
     else:
-        form = CustomUserCreationForm()
+        print("pinchó")
+        form = FormularioRegistroUsuario()
         
+    print("Falla del sistema")
     return render(request, 'sesiones/registro.html', {'form': form})
 
-
-
-## Función para gestionar el inicio de sesion
-class CustomLoginView(LoginView):
-    template_name = 'sesiones\login.html'
+def login_usuario(request):
+    if request.method == 'POST':
+        form = FormularioInicioSesion(request.POST)
+        if form.is_valid():
+            usuario = form.cleaned_data['usuario']
+            password = form.cleaned_data['password']
+            
+            print("Ya casi!")
+            user = authenticate(request, usuario=usuario, password=password)
+            print("Un poco más!")
+            if user is not None:
+                print ("Error de autenticación")
+                login(request, user)
+                print(f"Bienvenido! {usuario}")
+                return redirect('perfil')
+    else:
+        form = FormularioInicioSesion()
+        print("No pasa nada")
     
-    def get_success_url(self):
-        return '/'
+    print("Algo salio mal :(")
+    return render(request, 'sesiones/login.html', {'form': form})
 
-## Función para controlar la modificación de un perfil+
+@login_required
+def perfil_usuario(request):
+    return render(request, 'sesiones/perfil.html', {'user': request.user})
+
 @login_required
 def editar_perfil(request):
-    if request.method == 'POST':
-        formulario = UserChangeForm(request.POST, isinstance=request.user)
-        if formulario.is_valid():
-            formulario.save()
-            return redirect('home')
-    else:
-        form = UserChangeForm(isinstance = request.user)
+    print(f"Hola! Request method: {request.method}")  # Verifica si el método es POST
+    user = request.user
     
-    return render(request, 'sesiones/editar_perfil.html', {'form': formulario})
+    if request.method == 'POST':
+        form = FormularioPerfilUsuario(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil')
+        else:
+            return render(request, 'sesiones/editar_perfil.html', {'form': form})
+    else:
+        form = FormularioPerfilUsuario(instance=user)
+    
+    return render(request, 'sesiones/editar_perfil.html', {'form':form})

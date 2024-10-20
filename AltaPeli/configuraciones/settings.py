@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,6 +28,7 @@ SECRET_KEY = 'django-insecure-%1&th=x+-mqq3y-mw&8g2bcut^6h*po(9yz^b_2(cfo8te^%0t
 # URLS
 #LOGIN_URL = '././apps//login/'  # URL de logueo
 LOGIN_REDIRECT_URL = '/'  # URL a la que se redirige después de iniciar sesión
+LOGOUT_REDIRECT_URL = 'login'
 
 
 # Application definition
@@ -78,11 +80,11 @@ TEMPLATES = [
     },
 ]
 
+DEBUG = True
+
 WSGI_APPLICATION = 'AltaPeli.wsgi.application'
 
-
-
-
+AUTH_USER_MODEL = 'Sesiones.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

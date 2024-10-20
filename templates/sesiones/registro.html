@@ -2,28 +2,28 @@
 
 {% block title %}Registro{% endblock %}
 
-
-
-
-
 {% block contenido %}
-<div class="registro-container"> <!-- Contenedor general -->
-       <div class="registro-header"> <!-- Div para el encabezado -->
-           <h2>Registro de Usuario</h2>
-       </div>
-   
-       <div class="registro-form"> <!-- Div para el formulario -->
-           <form method="post">
-               {% csrf_token %}
-               {% for field in form %}
-                   <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                   {{ field }} <!-- Esto renderiza el input -->
-               {% endfor %}
-           </form>
 
-           <button type="submit"> Registrarse</button>
-       </div>
-   </div>
+<div class="registro-container"> <!-- Contenedor general -->
+        <div class="registro-header"> <!-- Div para el encabezado -->
+            <h2>Registro</h2>
+        </div>
+    
+        <div class="registro-form"> <!-- Div para el formulario -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }} 
+                {% endfor %}
+                
+                <div class="button-container">
+                    <button type="submit"> Registrarse</button>
+                </div>
+            </form>
+            <p>¿Tenés cuenta? <a href="{%url 'login' %}">Inicia sesión</a></p>
+        </div>
+    </div>
 {%endblock%}
 
 
