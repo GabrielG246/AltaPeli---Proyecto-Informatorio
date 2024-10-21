@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, DeleteView
-from .models import PeliculaSerie, Tipo
-from .forms import FormularioCrearContenido
+from django.views.generic.edit import CreateView, DeleteView, FormView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Tipo, Genero
+from .models import PeliculaSerie, Tipo
+from .forms import FormularioCrearContenido, FormularioPuntuarContenido
+
+from .models import Tipo, Genero, Puntuacion
 from apps.Actores_Directores.models import Director
 
 
@@ -56,12 +59,63 @@ def AdminVistaListarContenido(request):
 def VistaListarContenido(request, pk):
     contenido= PeliculaSerie.objects.filter(tipo_id=pk)
     tipo= Tipo.objects.filter(id=pk)
+
     
-    context= {'contenidos': contenido, 'titulo': tipo[0]}
+    context= {'contenidos': contenido, 'titulo': str(tipo[0])}
     return render(request, 'peliculas_series/Listar_Contenido.html', context)
 
 def VistaDetalleContenido(request, pk):
-    contenido= PeliculaSerie.objects.filter(id=pk)
+    contenido= PeliculaSerie.objects.get(id=pk)
+
     context= {'contenido': contenido}
     
     return render(request, 'peliculas_Series/Detalle_Contenido.html', context)
+
+
+class VistaPuntuarContenido(LoginRequiredMixin, FormView):
+    model= Puntuacion
+    form_class= FormularioPuntuarContenido
+    template_name= 'peliculas_Series/Puntuar_Contenido.html'
+    success_url= reverse_lazy("PaginaPrincipal")
+
+    
+    def get_context_data(self, **kwargs):
+        # Obtener Contexto
+        context= super().get_context_data(**kwargs)
+        
+        # Capturar Id de Usuario y Id de Contenido
+        usuario_id= self.request.user.id
+        contenido_id= self.kwargs.get("pk")
+        
+        # Consultar Contenido
+        contenido= PeliculaSerie.objects.get(id=contenido_id)
+        esta_puntuado= Puntuacion.objects.filter(usuario=usuario_id, pelicula_serie=contenido_id).exists()
+        
+        if esta_puntuado:
+            puntuacion= Puntuacion.objects.get(usuario=usuario_id, pelicula_serie=contenido_id)
+            context["puntuacion"]= puntuacion
+        
+        # Asignar Contenido como Contexto
+        context["contenido"]= contenido
+        context["puntuado"]= esta_puntuado
+        
+        return context
+    
+
+    def get_form_kwargs(self):
+        kwargs= super().get_form_kwargs()
+        
+        kwargs["usuario"]= self.request.user.id
+        kwargs["pelicula_serie"]= self.kwargs.get("pk")
+        
+        return kwargs
+        
+def VistaComunidad(request):
+    
+    reseñas= Puntuacion.objects.select_related('usuario', 'pelicula_serie').all()
+    
+    context={
+        "reseñas": reseñas
+    }
+    
+    return render(request, "peliculas_series/VistaComunidad.html", context)

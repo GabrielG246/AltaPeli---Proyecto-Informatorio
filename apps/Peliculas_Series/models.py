@@ -34,7 +34,7 @@ class PeliculaSerie(models.Model):
     director = models.ForeignKey(Director, on_delete=models.CASCADE, blank=False)
     trailer_url= models.URLField(
         max_length=500,
-        default="https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        default="https://altapelibucket.s3.us-east-2.amazonaws.com/RickRoll.mp4",
         blank=True
         )
     portada_img= models.ImageField(

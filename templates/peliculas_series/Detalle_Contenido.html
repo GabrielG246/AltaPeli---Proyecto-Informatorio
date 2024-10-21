@@ -3,5 +3,31 @@
 {% block titulo %}AltaPeli - Detalle{% endblock %}
 
 {% block contenido %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">{{ contenido.nombre }}</h3>
+                    <div>
+                        <img src="{{ contenido.portada_img.url }}" alt="Movie Cover" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
 
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Trailer</h3>
+                    <video controls style="width: 100%;"> 
+                        <source src="{{ contenido.trailer_url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -19,6 +19,8 @@
                     <div class="card-body">
                         <h5>{{ contenido.nombre }}</h5>
                         <a href="{% url 'admin_eliminar_contenido' contenido.pk %}" class="btn btn-danger">Eliminar</a>
+
+                        <a href="{% url 'puntuar_contenido' contenido.pk %}" class="btn btn-warning">Puntuar</a>
                     </div>
                 </div>
             </div>

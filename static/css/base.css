@@ -96,6 +96,8 @@
     align-items: center;
     position: relative;
     bottom: 0;
+    z-index: 100;
+
 
     & p {
         font-weight: bold;
@@ -113,4 +115,6 @@
     margin-top: 80px;
     min-height: 100vh;
     z-index: 99;
+    position: relative;
+    
 }

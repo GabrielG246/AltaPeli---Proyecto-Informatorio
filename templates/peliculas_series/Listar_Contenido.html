@@ -19,7 +19,7 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ contenido.nombre }}</h4>
     
-                        {% if titulo == "Series" %}
+                        {% if titulo == 'Series' %}
                             <p class="card-text">Temporadas: {{ contenido.duracion }} </p>
                         {% else %}
                             <p class="card-text">Duración: {{ contenido.duracion }} Minutos </p>
@@ -30,6 +30,7 @@
             {% endfor %}
         </div>
     </div>
+    
     
     
 </div>
