@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, FormView
 from django.contrib.auth.decorators import login_required
@@ -72,43 +72,50 @@ def VistaDetalleContenido(request, pk):
     return render(request, 'peliculas_Series/Detalle_Contenido.html', context)
 
 
-class VistaPuntuarContenido(LoginRequiredMixin, FormView):
-    model= Puntuacion
-    form_class= FormularioPuntuarContenido
-    template_name= 'peliculas_Series/Puntuar_Contenido.html'
-    success_url= reverse_lazy("PaginaPrincipal")
 
-    
-    def get_context_data(self, **kwargs):
-        # Obtener Contexto
-        context= super().get_context_data(**kwargs)
-        
-        # Capturar Id de Usuario y Id de Contenido
-        usuario_id= self.request.user.id
-        contenido_id= self.kwargs.get("pk")
-        
-        # Consultar Contenido
-        contenido= PeliculaSerie.objects.get(id=contenido_id)
-        esta_puntuado= Puntuacion.objects.filter(usuario=usuario_id, pelicula_serie=contenido_id).exists()
-        
-        if esta_puntuado:
-            puntuacion= Puntuacion.objects.get(usuario=usuario_id, pelicula_serie=contenido_id)
-            context["puntuacion"]= puntuacion
-        
-        # Asignar Contenido como Contexto
-        context["contenido"]= contenido
-        context["puntuado"]= esta_puntuado
-        
-        return context
-    
 
-    def get_form_kwargs(self):
-        kwargs= super().get_form_kwargs()
+@login_required
+def VistaPuntuarContenido(request, pk):
+    contenido = get_object_or_404(PeliculaSerie, id=pk)
+    puntuado = Puntuacion.objects.filter(usuario=request.user, pelicula_serie=contenido).exists()
+
+    print(f"Esta Puntuado { puntuado }")
+
+    puntuacion= None
+
+    if puntuado:
+        puntuacion= Puntuacion.objects.get(usuario=request.user, pelicula_serie=contenido)
+        print(puntuacion.puntaje)
+        print(puntuacion.comentario)
+
+    if request.method == 'POST':
         
-        kwargs["usuario"]= self.request.user.id
-        kwargs["pelicula_serie"]= self.kwargs.get("pk")
+        data= request.POST.copy()
+        data['usuario']= request.user
+        data['pelicula_serie']= contenido
+        data['puntaje']= int(request.POST.get('puntaje'))
+        data['comentario']= request.POST.get('comentario')
         
-        return kwargs
+    
+            # Si no puntuó, crea una nueva puntuación
+        form = FormularioPuntuarContenido(data)
+        if form.is_valid():
+            nueva_puntuacion = form.save(commit=False)
+            nueva_puntuacion.save()
+            
+            return redirect('PaginaPrincipal')  # Cambia esto por la vista a la que quieres redirigir
+
+    # Si no es un POST, muestra el formulario con la puntuación existente (si hay)
+    form = FormularioPuntuarContenido()
+
+    context = {
+        'contenido': contenido,
+        'puntuado': puntuado,
+        'form': form,
+        'puntuacion': puntuacion
+    }
+    return render(request, 'peliculas_series/Puntuar_Contenido.html', context)
+
         
 def VistaComunidad(request):
     

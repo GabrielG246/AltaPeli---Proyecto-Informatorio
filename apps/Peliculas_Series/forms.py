@@ -26,16 +26,3 @@ class FormularioPuntuarContenido(forms.ModelForm):
             "puntaje",
             "comentario"
         ]
-        
-    def __init__(self, *args, **kwargs):
-        # Obtener Id
-        usuario= kwargs.pop("usuario", None)
-        pelicula_serie= kwargs.pop("pelicula_serie", None)
-        
-        super().__init__(*args, **kwargs)
-        
-        if usuario is not None:
-            self.fields['usuario'].initial= usuario
-            
-        if pelicula_serie is not None:
-            self.fields['pelicula_serie'].initial= pelicula_serie

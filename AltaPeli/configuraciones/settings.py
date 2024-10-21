@@ -81,7 +81,7 @@ TEMPLATES = [
     },
 ]
 
-DEBUG = True
+DEBUG = False
 
 WSGI_APPLICATION = 'AltaPeli.wsgi.application'
 
