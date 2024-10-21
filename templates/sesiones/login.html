@@ -2,11 +2,24 @@
 
 {% block title %}Inicio de Sesión{% endblock %}
 
-{% block content %}
-<h2>Inicio de Sesión</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Iniciar Sesión</button>
-</form>
+{% block contenido %}
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Inicio de Sesión</h2>
+        </div>
+        
+        <div class="login-form">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }} 
+                {% endfor %}
+                <div class="button-container">
+                    <button type="submit">Iniciar Sesión</button>
+                </div>
+                <p>¿No tenes cuenta? <a href="{%url 'registro' %}">Registrate</a></p>
+            </form>
+        </div>
+    </div>
 {% endblock %}

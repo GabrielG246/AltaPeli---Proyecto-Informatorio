@@ -4,12 +4,29 @@
 
 
 {% block content %}
-<h2>Modificar Perfil</h2>
+<div class="modif-container">
+    <div class="modif-header">
+        <h2>Modificar Perfil</h2>
+    </div>
+    
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar Cambios</button>
-</form>
+    <div class="modif-form">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+        
+            <div class="button-container">
+                <button type="submit">Guardar Cambios</button>
+            </div>
+        </form>
+
+        <a href="{% url 'perfil' %}" class="btn"> Volver al perfil</a>
+
+    </div>
+</div>
+
+
+
+
 
 {%endblock%}

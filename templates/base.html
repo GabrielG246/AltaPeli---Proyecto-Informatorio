@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/lista_pelicula.css' %}">
     <link rel="stylesheet" href="{% static 'css/registro.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/puntuar_contenido.css' %}">
 
@@ -38,6 +40,8 @@
 
 <body>
 
+    <div class="content">
+
     <header class="base__header">
         <a href="{% url 'PaginaPrincipal' %}" class="base__header_image-contianer">
             <img src="{% static 'images/Logo_NB.png' %}" alt="Logo" class="base__header_image">
@@ -47,7 +51,7 @@
             <ul>
                 <li><a href="{% url 'listar_contenido' 1 %}">Películas</a></li>
                 <li><a href="{% url 'listar_contenido' 2 %}">Series</a></li>
-                <li><a href="{% url 'comunidad' %}">Comunidad</a></li>
+                <li><a href="">Comunidad</a></li>
             </ul>
         </nav>
 
@@ -73,6 +77,9 @@
     <footer class="base__footer">
         <p>©Grupo 2</p>
     </footer>
+
+    </div>
+   
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

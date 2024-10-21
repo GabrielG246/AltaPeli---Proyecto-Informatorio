@@ -1,19 +1,34 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import User
 
-class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True)  # Agregar el campo de email
-    lastname = forms.CharField(max_length=150, required=True)  # Agregar el campo de apellido
-
+class FormularioRegistroUsuario(UserCreationForm):
+    nombre = forms.CharField(max_length=20, required=True, label='Nombre')
+    apellido = forms.CharField(max_length=20, required=True, label='Apellido')
+    usuario = forms.CharField(max_length=30, required=True, label='Usuario')
+    email = forms.EmailField(required=True, label='Correo electrónico')
+    imagen_perfil = forms.ImageField(required=False, label='Imagen de perfil')
+    
     class Meta:
         model = User
-        fields = ('username', 'lastname', 'email', 'password1', 'password2')  # Asegúrate de incluir los campos que deseas
+        fields = ['nombre', 'apellido', 'usuario', 'email', 'password1', 'password2', 'imagen_perfil' ]
 
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.email = self.cleaned_data['email']
-        user.last_name = self.cleaned_data['lastname']  # Establecer el apellido
-        if commit:
-            user.save()
-        return user
+class FormularioInicioSesion(forms.Form):
+    usuario = forms.CharField(max_length=30, label='Usuario', required=True)
+    password = forms.CharField(label='Contraseña', max_length=128,widget=forms.PasswordInput, required=True)
+
+User = get_user_model()
+
+class FormularioPerfilUsuario(forms.ModelForm):
+    
+    class Meta:
+        model = User
+        fields = ['nombre', 'apellido','usuario', 'email', 'profile_image',]
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
+            'usuario': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'profile_image': forms.FileInput(attrs={'class': 'form-control-file'}),}
+

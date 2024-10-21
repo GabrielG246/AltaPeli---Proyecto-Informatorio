@@ -5,6 +5,9 @@ from apps.Actores_Directores.models import Actor
 from AltaPeli.models import Premio
 from django.contrib.auth.models import User
 
+##Resolución de conflicto
+from django.conf import settings
+
 
 # Create your models here.
 
@@ -56,7 +59,7 @@ class Reparto(models.Model):
     
 # Modelo Puntuación (Tabla Intermedia entre Peliculas y Usuario)
 class Puntuacion(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     pelicula_serie = models.ForeignKey(PeliculaSerie, on_delete=models.CASCADE)
     puntaje = models.IntegerField()
     comentario = models.TextField(max_length=400)
