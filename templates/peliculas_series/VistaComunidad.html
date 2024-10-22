@@ -3,15 +3,15 @@
 {% block titulo %}AltaPeli Comunidad{% endblock %}
 
 {% block contenido %}
-<div class="container mt-5">
-    <div class="row">
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="row d-flex justify-content-center">
         {% for reseña in reseñas %}  <!-- Cambia 'items' por la variable que estés usando -->
-        <div class="col-md-4 mb-4">
+        <div class="col-10 mb-4">
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-3">
                         <!-- Imagen -->
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-md-3 col-sm-12">
                             <img src="{{ reseña.pelicula_serie.portada_img.url }}" class="img-fluid" alt="Portada"> <!-- Cambia 'item.image' y 'item.title' según corresponda -->
                         </div>
                         <!-- Título -->
