@@ -3,14 +3,20 @@
 {% block titulo %}AltaPeli - Detalle{% endblock %}
 
 {% block contenido %}
-<div class="container mt-5">
+<div class="container">
+    <h3 class="fs-1 fw-bold text-center" style="font-family: var(--primary-font);">{{ contenido.nombre }}</h3>
     <div class="row">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body">
-                    <h3 class="card-title">{{ contenido.nombre }}</h3>
-                    <div>
-                        <img src="{{ contenido.portada_img.url }}" alt="Movie Cover" class="img-fluid">
+                    <h3 class="card-title fs-5 text-center" style="font-family: var(--primary-font);">Información</h3>
+                    <div class="col-12 d-flex justify-content-center">
+                        <img src="{{ contenido.portada_img.url }}" alt="Movie Cover" class="img-fluid col-8">
+                    </div>
+                    <div class="mt-3 ps-5">
+                        <p><span class="fw-bold">Director:</span> {{contenido.director.nombre}} {{contenido.director.apellido}}</p>
+                        <p><span class="fw-bold">Genero:</span> {{contenido.genero}}</p>
+                        <p><span class="fw-bold">Estreno:</span> {{contenido.anio_estreno}}</p>                       
                     </div>
                 </div>
             </div>
@@ -18,13 +24,29 @@
 
 
         <div class="col-md-8">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body">
-                    <h3 class="card-title">Trailer</h3>
+                    <h3 class="card-title fs-5 text-center" style="font-family: var(--primary-font);">Trailer</h3>
                     <video controls style="width: 100%;"> 
                         <source src="{{ contenido.trailer_url }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
+                    <div class="d-flex">
+                        <p><span class="fw-bold">Duracion:</span> {% if contenido.tipo.nombre == "Peliculas" %} {{contenido.duracion}} Minutos {% else %} {{contenido.duracion}} Temporadas {%endif%}</p> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mt-3">
+            <div class="card">
+                <!-- Estrellas -->
+                <p class="p-0 m-0">Puntuación</p>
+                <div class="rating col-md-6 col-sm-12 p-0 m-0 d-flex row-reverse flex-row-reverse justify-content-end">
+                    {% for i in "54321" %}
+                        <input value="{{ i }}" name="puntaje_{{ puntuacion }}" id="star{{ i }}_{{ puntuacion }}" type="radio" {% if puntuacion|stringformat:"d" == i %}checked{% endif %} disabled>
+                        <label title="{{ i }} estrellas" for="star{{ i }}_{{ puntuacion }}"></label>
+                    {% endfor %}
                 </div>
             </div>
         </div>

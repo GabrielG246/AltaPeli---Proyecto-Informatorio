@@ -31,3 +31,8 @@ body{
     box-sizing: border-box;
     padding: 0;
 }
+
+.top-0{
+    position: absolute;
+    top: 0%;
+}

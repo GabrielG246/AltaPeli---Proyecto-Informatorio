@@ -5,7 +5,7 @@
 {% block contenido %}
 
 <div class="d-flex flex-column align-items-center w-75">
-    <h2>{{titulo}}</h2>
+    <h2 class="fs-1 text-center mt-3" style="font-family: var(--primary-font);">{{titulo}}</h2>
 
 
     <div class="container-fluid">
@@ -14,10 +14,10 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center mb-4">
                 <div class="card" style="max-width: 400px; width: 100%;">
                     <a href="{% url 'detalle_contenido' contenido.pk %}">
-                        <img class="card-img-top" src="{{ contenido.portada_img.url }}" alt="Title" style="max-height: 380px;"/>
+                        <img class="card-img-top" src="{{ contenido.portada_img.url }}" alt="Title" style="max-height: 380px; height: 100%;"/>
                     </a>
                     <div class="card-body">
-                        <h4 class="card-title">{{ contenido.nombre }}</h4>
+                        <a href="{% url 'detalle_contenido' contenido.pk %}" class="card-title fs-5 p-0 m-0 text-decoration-none">{{ contenido.nombre }}</a>
     
                         {% if titulo == 'Series' %}
                             <p class="card-text">Temporadas: {{ contenido.duracion }} </p>

@@ -3,7 +3,7 @@
 {% block contenido %}
 <div class="crearContenido__container">
 
-    <h3 class="fs-1 text-center mt-3" style="font-family: var(--primary-font);">Crear Contenido</h3>
+    <h3 class="fs-1 text-center mt-3" style="font-family: var(--primary-font);">Editar Contenido</h3>
 
     <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
         {% csrf_token %}
@@ -16,8 +16,10 @@
             <input type="text" id="input__nombre" name="nombre" class="form-control
                 {% if form.nombre.errors %}is-invalid{% endif %}
                 {% if not form.nombre.errors and form.nombre.value %}is-valid{% endif %}
-                " value="{% if form.nombre.value is not None %}{{ form.nombre.value }}{% endif %}"
+                " value="{% if form.nombre.value is not None %}{{ form.nombre.value }}{% endif %} "
                 placeholder="Nombre">
+
+                <!--{% if contenido.nombre is not None %}{{contenido.nombre}}{% endif %}-->
 
             {% if form.nombre.errors %}
             <div class="invalid-feedback">
@@ -35,7 +37,7 @@
             <label for="input__duracion" class="form-label">Duracion de Película</label>
             <!--INPUT-->
             <input type="number" id="input__duracion" name="duracion" class="form-control"
-                value="{% if form.duracion.value is not None %}{{ form.duracion.value }}{% endif %}"
+                value="{% if contenido.duracion is not None %}{{contenido.duracion}}{% endif %}"
                 placeholder="Duracion">
         </div>
 
@@ -47,7 +49,7 @@
                                                 {% if form.anio_estreno.errors %}is-invalid{% endif %}
                                                 {% if not form.anio_estreno.errors and form.anio_estreno.value %}is-valid{% endif %}
                                                 "
-                value="{% if form.anio_estreno.value is not None %}{{ form.anio_estreno.value }}{% endif %}">
+                value="{% if contenido.anio_estreno is not None %}{{contenido.anio_estreno|stringformat:"s"}}{% endif %}">
 
             {% if form.anio_estreno.errors %}
             <div class="invalid-feedback">
@@ -69,7 +71,7 @@
                                                 {% if not form.tipo.errors and form.tipo.value %}is-valid{% endif %}">
                 <option>Tipo de Contenido</option>
                 {% for tipo in tipos %}
-                <option value={{ tipo.id }} {% if form.tipo.value|stringformat:"s" == tipo.id|stringformat:"s" %}selected{% endif %}>{{ tipo.nombre }}</option>
+                <option value={{ tipo.id }} {% if contenido.|stringformat:"s" == tipo.id|stringformat:"s" %}selected{% endif %} {% if form.tipo.value|stringformat:"s" == tipo.id|stringformat:"s" %}selected{% endif %}>{{ tipo.nombre }}</option>
 
                 {% endfor %}
             </select>
@@ -93,7 +95,7 @@
                                                 {% if not form.director.errors and form.director.value %}is-valid{% endif %}">
                 <option>Director</option>
                 {% for director in directores %}
-                <option value={{ director.id }} {% if form.director.value|stringformat:"s" == director.id|stringformat:"s" %}selected{% endif %}>{{ director.nombre }} {{director.apellido}}</option>
+                <option value={{ director.id }} {% if contenido.|stringformat:"s" == director.id|stringformat:"s" %}selected{% endif %} {% if form.director.value|stringformat:"s" == director.id|stringformat:"s" %}selected{% endif %}>{{ director.nombre }} {{director.apellido}}</option>
                 {% endfor %}
             </select>
 
@@ -117,7 +119,7 @@
                                                 {% if not form.genero.errors and form.genero.value %}is-valid{% endif %}">
                 <option>Genero</option>
                 {% for genero in generos %}
-                <option value={{ genero.id }} {% if form.genero.value|stringformat:"s" == genero.id|stringformat:"s" %}selected{% endif %}>{{ genero.nombre }} {{genero.apellido}}</option>
+                <option value={{ genero.id }} {% if contenido.|stringformat:"s" == genero.id|stringformat:"s" %}selected{% endif %} {% if form.genero.value|stringformat:"s" == genero.id|stringformat:"s" %}selected{% endif %}>{{ genero.nombre }} {{genero.apellido}}</option>
                 {% endfor %}
             </select>
 
@@ -138,7 +140,7 @@
             <label for="input_portada">Portada de Película</label>
             <!--INPUT-->
             <div class="input-group">
-                <input type="file" class="form-control" id="input__container" name="portada_img">
+                <input type="file" class="form-control" id="input__container" name="portada_img" value="{% if contenido.portada_img is not None %}{{ contenido.portada_img }}{% endif %}">
                 <label for="input__container" class="input-group-text">Upload</label>
             </div>
         </div>

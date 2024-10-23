@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, DeleteView, FormView
+from django.views.generic.edit import CreateView, DeleteView, FormView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum, Count
 
 from .models import PeliculaSerie, Tipo
 from .forms import FormularioCrearContenido, FormularioPuntuarContenido
@@ -13,6 +14,7 @@ from apps.Actores_Directores.models import Director
 
 
 # Create your views here.
+
 def PeliculasSeriesView(request):
     contenido= PeliculaSerie.objects.all()
     peliculas= PeliculaSerie.objects.filter(tipo_id=1)
@@ -22,7 +24,10 @@ def PeliculasSeriesView(request):
     print(series)
     return render(request, 'peliculas_series/Listado.html')
 
-# Vista para Formulario (CrearContenido)
+
+# <==== CRUD CONTENIDO ADMINISTRADOR ====> #
+
+# Vista CREATE Contenido (Contribuidor)
 class AdminVistaCrearContenido(CreateView):
     model= PeliculaSerie
     form_class= FormularioCrearContenido
@@ -33,7 +38,6 @@ class AdminVistaCrearContenido(CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        # Aquí puedes imprimir los errores o hacer un logging
         print(form.errors)
         return super().form_invalid(form)
     
@@ -43,19 +47,44 @@ class AdminVistaCrearContenido(CreateView):
         context['generos']= Genero.objects.all()
         context['directores']= Director.objects.all()
         return context
-    
-    
+
+# Vista DELETE Contenido (Contribuidor)
 class AdminVistaEliminarContenido(DeleteView):
     model= PeliculaSerie
     template_name= 'peliculas_series/AdminEliminarContenido.html'
     success_url= reverse_lazy('admin_listar_contenido')
     
     
+# Vista READ Contenido (Contribuidor)
 def AdminVistaListarContenido(request):
     contenido= PeliculaSerie.objects.all()
     context= {'contenidos': contenido}
     return render(request, 'peliculas_series/AdminListarContenido.html', context)
 
+# Vista UPDATE Contenido (Contribuidor)
+class AdminVistaModificarContenido(UpdateView):
+    model= PeliculaSerie
+    form_class= FormularioCrearContenido
+    template_name= 'peliculas_series/AdminEditarContenido.html'
+    success_url= reverse_lazy('admin_listar_contenido')
+    
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        
+        pk= self.kwargs['pk']
+        contenido= PeliculaSerie.objects.get(id=pk)
+        
+        context['contenido']= contenido
+        context['tipos']= Tipo.objects.all()
+        context['generos']= Genero.objects.all()
+        context['directores']= Director.objects.all()
+        
+        return context
+    
+
+# <==== VISUALIZACIÓN DE CONTENIDO (USUARIOS) ====> #
+
+# Vista de Contenido (Usuario)
 def VistaListarContenido(request, pk):
     contenido= PeliculaSerie.objects.filter(tipo_id=pk)
     tipo= Tipo.objects.filter(id=pk)
@@ -64,16 +93,30 @@ def VistaListarContenido(request, pk):
     context= {'contenidos': contenido, 'titulo': str(tipo[0])}
     return render(request, 'peliculas_series/Listar_Contenido.html', context)
 
+# Vista Detalle de Contenido (Usuario)
 def VistaDetalleContenido(request, pk):
     contenido= PeliculaSerie.objects.get(id=pk)
+    reseñas= Puntuacion.objects.filter(pelicula_serie=contenido)
+    puntaje_reseñas = Puntuacion.objects.filter(pelicula_serie=contenido).aggregate(total_puntaje=Sum('puntaje'))
+    cant_reseñas = Puntuacion.objects.filter(pelicula_serie=contenido).aggregate(total_reseñas=Count('id'))
+    
+    total_puntaje = puntaje_reseñas['total_puntaje'] or 0
+    total_reseñas = cant_reseñas['total_reseñas'] or 1
+    
+    puntuacion= round(total_puntaje/total_reseñas)
 
-    context= {'contenido': contenido}
+    context= {
+        'contenido': contenido,
+        'reseñas': reseñas,
+        'puntuacion': puntuacion
+        }
     
     return render(request, 'peliculas_Series/Detalle_Contenido.html', context)
 
 
+# <==== CRUD EVENTO ====> #
 
-
+# Vista CREATE Evento (Usuario Requerido)
 @login_required
 def VistaPuntuarContenido(request, pk):
     contenido = get_object_or_404(PeliculaSerie, id=pk)
@@ -97,15 +140,13 @@ def VistaPuntuarContenido(request, pk):
         data['comentario']= request.POST.get('comentario')
         
     
-            # Si no puntuó, crea una nueva puntuación
         form = FormularioPuntuarContenido(data)
         if form.is_valid():
             nueva_puntuacion = form.save(commit=False)
             nueva_puntuacion.save()
             
-            return redirect('PaginaPrincipal')  # Cambia esto por la vista a la que quieres redirigir
+            return redirect('PaginaPrincipal')
 
-    # Si no es un POST, muestra el formulario con la puntuación existente (si hay)
     form = FormularioPuntuarContenido()
 
     context = {
@@ -116,13 +157,21 @@ def VistaPuntuarContenido(request, pk):
     }
     return render(request, 'peliculas_series/Puntuar_Contenido.html', context)
 
-        
+# Vista READ Evento (Usuario Requerido)
+
+# Vista DELETE Evento (Usuario Requerido)
+
+# Vista UPDATE Evento (Usuario Requerido)
+
+# Vista Comunidad (Evento)
 def VistaComunidad(request):
     
     reseñas= Puntuacion.objects.select_related('usuario', 'pelicula_serie').all()
+    usuario= request.user
     
     context={
-        "reseñas": reseñas
+        "reseñas": reseñas,
+        "usuario": usuario
     }
     
     return render(request, "peliculas_series/VistaComunidad.html", context)

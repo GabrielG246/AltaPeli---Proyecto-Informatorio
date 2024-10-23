@@ -2,12 +2,15 @@
 
 {% block contenido %}
 
-    <h3>¿Estás seguro de Eliminar este Contenido?</h3>
-    <form method="POST">
-        {% csrf_token %}
-
-        <button class="btn btn-danger my-5" type="submit">Eliminar</button>
-
-        <a href="{% url 'admin_listar_contenido' %}">Cancelar</a>
-    </form>
+    <div class=" d-flex flex-column justify-content-center align-items-center">
+        <h3>¿Estás seguro de Eliminar este Contenido?</h3>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <button class="btn btn-danger my-5 mx-3" type="submit">Eliminar</button>
+            
+            <a href="{% url 'admin_listar_contenido' %}" class="mx-3">Cancelar</a>
+        </form>
+    </div>
 {% endblock %}
