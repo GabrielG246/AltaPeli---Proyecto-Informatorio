@@ -9,5 +9,6 @@ urlpatterns = [
     path('listado_contenido/', views.AdminVistaListarContenido, name="admin_listar_contenido"),
     path('detalle_contenido/<int:pk>/', views.VistaDetalleContenido, name="detalle_contenido"),
     path('puntuar_contenido/<int:pk>/', views.VistaPuntuarContenido, name="puntuar_contenido"),
-    path('comunidad/', views.VistaComunidad, name='comunidad')
+    path('comunidad/', views.VistaComunidad, name='comunidad'),
+    path('buscar/', views.buscar_pelicula_serie, name='buscar'),
 ]
