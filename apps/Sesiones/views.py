@@ -1,5 +1,5 @@
 # Librerias para registro
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import FormularioRegistroUsuario, FormularioInicioSesion, FormularioPerfilUsuario
 from django.contrib import messages
 #Librerias para Login
@@ -62,6 +62,13 @@ def perfil_usuario(request):
     
     for puntuacion in puntuaciones:
         print(f"Pelicula/Serie: {puntuacion.pelicula_serie.nombre}")
+        
+    # Manejar la eliminación de una reseña
+    if request.method == 'POST':
+        puntuacion_id = request.POST.get('puntuacion_id')
+        puntuacion = get_object_or_404(Puntuacion, id=puntuacion_id, usuario=request.user)
+        puntuacion.delete()
+        return redirect('perfil') 
     
     return render(request, 'sesiones/perfil.html', {
         'user': request.user, 'puntuaciones': puntuaciones,

@@ -66,8 +66,18 @@ def VistaListarContenido(request, pk):
 
 def VistaDetalleContenido(request, pk):
     contenido= PeliculaSerie.objects.get(id=pk)
+    puntuaciones = Puntuacion.objects.filter(pelicula_serie=contenido)
 
-    context= {'contenido': contenido}
+    if request.method == 'POST':
+        puntuacion_id = request.POST.get('puntuacion_id')
+        puntuacion = get_object_or_404(Puntuacion, id=puntuacion_id, usuario=request.user)
+        puntuacion.delete()
+        return redirect('detalle_contenido', id=pk)
+    
+    context= {
+        'contenido': contenido,
+        'puntuaciones': puntuaciones,
+        }
     
     return render(request, 'peliculas_Series/Detalle_Contenido.html', context)
 
@@ -103,7 +113,7 @@ def VistaPuntuarContenido(request, pk):
             nueva_puntuacion = form.save(commit=False)
             nueva_puntuacion.save()
             
-            return redirect('PaginaPrincipal')  # Cambia esto por la vista a la que quieres redirigir
+            return redirect('detalle_contenido', pk=contenido.pk)  # Cambia esto por la vista a la que quieres redirigir
 
     # Si no es un POST, muestra el formulario con la puntuación existente (si hay)
     form = FormularioPuntuarContenido()

@@ -28,6 +28,41 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Reseñas</h3>
+                    {% if puntuaciones %}
+                    <ul>
+                        {% for puntuacion in puntuaciones %}
+                            <li>
+                                <strong>{{ puntuacion.usuario.nombre }}:</strong> 
+                                <span>Puntaje: {{ puntuacion.puntaje }}/10</span>
+                                <p>{{ puntuacion.comentario }}</p>
+                
+                                {% if puntuacion.usuario == request.user %}
+                                    <form method="POST" style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="puntuacion_id" value="{{ puntuacion.id }}">
+                                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esta reseña?');">Eliminar</button>
+                                    </form>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <p>No hay reseñas para esta película o serie.</p>
+                    {% endif %}
+                    <div class="boton-agregar">
+                        <a href="{% url 'puntuar_contenido' contenido.id %}" class="button">Añadir Reseña</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
 {% endblock %}
