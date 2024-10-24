@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+    <div class=" d-flex flex-column justify-content-center align-items-center">
+        <h3>¿Estás seguro de Eliminar esta Reseña?</h3>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <button class="btn btn-danger my-5 mx-3" type="submit">Eliminar</button>
+            
+            <a href="{% url 'comunidad' %}" class="mx-3">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

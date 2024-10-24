@@ -64,8 +64,8 @@ class Puntuacion(models.Model):
     puntaje = models.IntegerField()
     comentario = models.TextField(max_length=400)
     
-    class Meta:
-        unique_together = ('usuario', 'pelicula_serie')
+    #class Meta:
+    #    unique_together = ('usuario', 'pelicula_serie')
 
     def __str__(self):
         return f'Puntuación de {self.usuario} para {self.pelicula_serie}'

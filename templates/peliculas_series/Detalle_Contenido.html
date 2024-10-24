@@ -41,15 +41,64 @@
         <div class="col-12 mt-3">
             <div class="card">
                 <!-- Estrellas -->
-                <p class="p-0 m-0">Puntuación</p>
-                <div class="rating col-md-6 col-sm-12 p-0 m-0 d-flex row-reverse flex-row-reverse justify-content-end">
-                    {% for i in "54321" %}
-                        <input value="{{ i }}" name="puntaje_{{ puntuacion }}" id="star{{ i }}_{{ puntuacion }}" type="radio" {% if puntuacion|stringformat:"d" == i %}checked{% endif %} disabled>
-                        <label title="{{ i }} estrellas" for="star{{ i }}_{{ puntuacion }}"></label>
-                    {% endfor %}
+                <div class="d-flex flex-column align-items-center ">
+                    <h6 class="fs-4 color-warning">Promedio:</h6>
+                    <div class="rating col-md-6 col-sm-12 p-0 m-0 d-flex row-reverse flex-row-reverse justify-content-center">
+                        {% for i in "54321" %}
+                            <input value="{{ i }}" name="puntaje_{{ puntuacion }}" id="star{{ i }}_{{ puntuacion }}" type="radio" {% if puntuacion|stringformat:"d" == i %}checked{% endif %} disabled>
+                            <label title="{{ i }} estrellas" for="star{{ i }}_{{ puntuacion }}"></label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
+            <a href="{% url 'crear_resena' contenido.pk %}" class="my-3 btn btn-warning">Puntuar</a>
+
+            
+        </div>
+
+        {% for reseña in reseñas %}
+        <!--CARD-->
+        <div class="card col-5 mx-2 my-2">
+            <!--CARD HEADER-->
+            <div class="card-header row d-flex align-items-center position-relative">
+                <div class="col-1 cstm__profile-image">
+                    <img src="{{ reseña.usuario.profile_image.url }}" alt="Img">
+                </div>
+                <div class="col-6 d-flex align-items-center"> <h5 class="fs-5 text-center">{{ reseña.usuario.usuario }}</h5> </div>
+                <div class="col-5">
+                    <div class="rating d-flex flex-row-reverse justify-content-end py-0 top-0">
+                        {% for i in "54321" %}
+                        <input class="py-0 my-0"  value="{{ i }}" name="puntaje_{{ reseña.id }}" id="star{{ i }}_{{ reseña.id }}" type="radio" {% if reseña.puntaje|stringformat:"d" == i %}checked{% endif %} disabled>
+                        <label title="{{ i }} estrellas" for="star{{ i }}_{{ reseña.id }}" class="me-1 py-0 my-0"></label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+            <!--CARD BODY-->
+            <div class="card-body row p-0">
+                <div class="col-12">
+                    <textarea class="form-control w-100 h-100 col-12" rows="3" placeholder="{{ reseña.comentario }}" disabled style="resize: none;background-color: transparent;border: none;"></textarea>
+                </div>
+            </div>
+            <!--CARD FOOTER-->
+            <div class="card-footer row">
+                <div class="col-8 d-flex align-items-center">
+                    <img src="{{ reseña.pelicula_serie.portada_img.url }}" alt="Portada" class="col-2 border rounded">
+                    <h5 class="col-10">{{ reseña.pelicula_serie.nombre }}</h6>
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    {% if reseña.usuario == usuario %}
+                        <a href="{% url 'editar_resena' reseña.pk %}" class="text-primary p-0 m-0 mx-2 text-decoration-none focus-ring link-underline-hover">Editar</a>
+                        <a href="{% url 'eliminar_resena' reseña.pk %}" class="text-danger p-0 m-0 mx-2 text-decoration-none focus-ring link-underline-hover">Eliminar</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
+    {% endfor %}
+
     </div>
 </div>
 {% endblock %}

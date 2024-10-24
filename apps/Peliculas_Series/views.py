@@ -1,8 +1,9 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, FormView, UpdateView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Sum, Count
 
 from .models import PeliculaSerie, Tipo
@@ -13,6 +14,7 @@ from apps.Actores_Directores.models import Director
 
 
 
+
 # Create your views here.
 
 def PeliculasSeriesView(request):
@@ -20,8 +22,6 @@ def PeliculasSeriesView(request):
     peliculas= PeliculaSerie.objects.filter(tipo_id=1)
     series= PeliculaSerie.objects.filter(tipo_id=2)
     
-    print(peliculas)
-    print(series)
     return render(request, 'peliculas_series/Listado.html')
 
 
@@ -38,7 +38,6 @@ class AdminVistaCrearContenido(CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(form.errors)
         return super().form_invalid(form)
     
     def get_context_data(self, **kwargs):
@@ -88,6 +87,7 @@ class AdminVistaModificarContenido(UpdateView):
 def VistaListarContenido(request, pk):
     contenido= PeliculaSerie.objects.filter(tipo_id=pk)
     tipo= Tipo.objects.filter(id=pk)
+    
 
     
     context= {'contenidos': contenido, 'titulo': str(tipo[0])}
@@ -104,11 +104,14 @@ def VistaDetalleContenido(request, pk):
     total_reseñas = cant_reseñas['total_reseñas'] or 1
     
     puntuacion= round(total_puntaje/total_reseñas)
+    
+    usuario= request.user
 
     context= {
         'contenido': contenido,
         'reseñas': reseñas,
-        'puntuacion': puntuacion
+        'puntuacion': puntuacion,
+        'usuario': usuario
         }
     
     return render(request, 'peliculas_Series/Detalle_Contenido.html', context)
@@ -122,14 +125,10 @@ def VistaPuntuarContenido(request, pk):
     contenido = get_object_or_404(PeliculaSerie, id=pk)
     puntuado = Puntuacion.objects.filter(usuario=request.user, pelicula_serie=contenido).exists()
 
-    print(f"Esta Puntuado { puntuado }")
-
     puntuacion= None
 
     if puntuado:
         puntuacion= Puntuacion.objects.get(usuario=request.user, pelicula_serie=contenido)
-        print(puntuacion.puntaje)
-        print(puntuacion.comentario)
 
     if request.method == 'POST':
         
@@ -160,8 +159,48 @@ def VistaPuntuarContenido(request, pk):
 # Vista READ Evento (Usuario Requerido)
 
 # Vista DELETE Evento (Usuario Requerido)
+class VistaEliminarReseña(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model= Puntuacion
+    template_name= 'peliculas_series/Eliminar_Reseña.html'
+    success_url= reverse_lazy('PaginaPrincipal')
+        
+    
+    def test_func(self):
+        # Captura de Parámetros
+        pk= self.kwargs.get('pk')
+        
+        reseña= Puntuacion.objects.get(id=pk)
+        
+        if reseña.usuario.id == self.request.user.id:
+            return True
+        return False
+            
 
-# Vista UPDATE Evento (Usuario Requerido)
+def VistaModificarReseña(request, pk):
+    reseña= Puntuacion.objects.get(id=pk)
+    
+    
+    if request.method == 'POST':
+        post_data= request.POST.copy()
+        
+        post_data['usuario']= reseña.usuario
+        post_data['pelicula_serie']= reseña.pelicula_serie
+        post_data['puntaje']= int(post_data['puntaje'])
+        post_data['comentario']= post_data['comentario']
+        
+        
+        form = FormularioPuntuarContenido(post_data, instance=reseña)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('PaginaPrincipal')
+
+    else:
+        
+        form = FormularioPuntuarContenido(instance=reseña)
+        
+
+    return render(request, 'peliculas_series/Modificar_Reseña.html', {'form':form, 'reseña': reseña})
 
 # Vista Comunidad (Evento)
 def VistaComunidad(request):

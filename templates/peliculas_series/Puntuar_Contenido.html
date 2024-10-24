@@ -28,7 +28,7 @@
             {% csrf_token %}
             <div class="mb-12 col-12">
                 <label for="comentario" class="form-label">Escribe un comentario</label>
-                <textarea id="comentario" name="comentario" class="form-control" maxlength="400" rows="3" placeholder="Máximo 400 caracteres" {% if puntuado %}disabled{% endif %}>{{ puntuacion.comentario }}</textarea>
+                <textarea id="comentario" name="comentario" class="form-control" maxlength="400" rows="3" placeholder="Máximo 400 caracteres" {% if puntuado %}disabled{% endif %} style="resize: none;">{{ puntuacion.comentario }}</textarea>
             </div>
 
             <div class="rating">
@@ -54,7 +54,9 @@
 
 
         {% if puntuado %}
-        <p class="--bs-warning-border-subtle">Ya Puntuaste este Contenido</p>
+        <p class="--bs-warning-border-subtle text-warning my-0">Ya Puntuaste este Contenido.</p>
+        <p class="--bs-warning-border-subtle text-warning my-0">¿Desea editar su Reseña?</p>
+        <a href="{% url 'editar_resena' puntuacion.pk %}" class="btn btn-warning">Editar</a>
         {% endif %}
     </div>
 
