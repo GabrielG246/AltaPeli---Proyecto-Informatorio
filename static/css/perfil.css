@@ -1,10 +1,60 @@
+/* Containers Generales */
+.perfil-container {
+       display: flex;
+       justify-content: space-between;
+       align-items: flex-start;
+}
+
+.usuario-info {
+       width: 45%;  /* Datos del usuario a la derecha */
+}
+
+.reseñas-info {
+       width: 45%;  /* Reseñas a la izquierda */
+}
+
+/* Contenedor para las reseñas */
+.reseñas-container {
+       display: flex;
+       flex-direction: column;
+       gap: 15px;
+   }
+   
+   .reseña-item {
+       background-color: #f9f9f9;
+       padding: 15px;
+       border-radius: 8px;
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   }
+   
+   .reseña-item h4 a {
+       text-decoration: none;
+       color: #007bff;
+       font-weight: bold;
+       transition: color 0.3s;
+   }
+   
+   .reseña-item h4 a:hover {
+       color: #0056b3;
+   }
+   
+   .reseña-item p {
+       margin: 5px 0;
+   }
+   
+   .reseña-item strong {
+       font-weight: bold;
+   }
+   
+/* --------------------------- */
+
 .perfil-container{
        font-family: var(--primary-font);
        font-size: 40px;
        text-align: center;
        padding: 20px;
        background-color: var(--primary-color-dark);
-       width: 600px;
+       width: 1400px;
        height: 800px;
        margin: 30px;
        border-radius: 25px;

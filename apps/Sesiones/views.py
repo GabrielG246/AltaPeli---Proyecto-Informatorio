@@ -1,10 +1,12 @@
 # Librerias para registro
 from django.shortcuts import render, redirect
 from .forms import FormularioRegistroUsuario, FormularioInicioSesion, FormularioPerfilUsuario
+from django.contrib import messages
 #Librerias para Login
 from django.contrib.auth import authenticate, login
 #Librerias para el perfil de usuario
 from django.contrib.auth.decorators import login_required
+from apps.Peliculas_Series.models import Puntuacion
 
 
 ## Función para gestionar el registro de usuarios.
@@ -17,7 +19,13 @@ def registro(request):
             form.save()
             usuario = form.cleaned_data.get('usuario')
             print("Espera")
+            messages.success(request, 'Registro Exitoso! Inicia sesión.')
             return redirect('login')
+        else:
+            print("Errores en el formulario:", form.errors)
+            for error in form.errors.values():
+                messages.error(request, error)
+                print(f"Error: {error}")
     else:
         print("pinchó")
         form = FormularioRegistroUsuario()
@@ -49,7 +57,15 @@ def login_usuario(request):
 
 @login_required
 def perfil_usuario(request):
-    return render(request, 'sesiones/perfil.html', {'user': request.user})
+    # Obtener todas las reseñas del usuario actual
+    puntuaciones = Puntuacion.objects.filter(usuario=request.user).select_related('pelicula_serie')
+    
+    for puntuacion in puntuaciones:
+        print(f"Pelicula/Serie: {puntuacion.pelicula_serie.nombre}")
+    
+    return render(request, 'sesiones/perfil.html', {
+        'user': request.user, 'puntuaciones': puntuaciones,
+    })
 
 @login_required
 def editar_perfil(request):
