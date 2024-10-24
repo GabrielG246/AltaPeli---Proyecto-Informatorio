@@ -21,7 +21,6 @@
     }
 
 
-
     & .base__header_nav {
         width: 50%;
         height: 80px;
@@ -85,6 +84,22 @@
         }
 
     }
+}
+
+.header-perfil-container{
+    width: 200px;
+    height: 80px;
+    border-radius: 50%;
+    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-perfil-container img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
 }
 
 .main__container {

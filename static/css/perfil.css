@@ -42,18 +42,18 @@
        font-family: var(--primary-font);
        color: var(--primary-color); 
        margin-bottom: 20px;
-   }
-   
-   .perfil-form input {
+}
+
+.perfil-form input {
        font-family: var(--primary-font);
        border: 1px solid var(--gray);
        border-radius: 5px;
        padding: 10px;
        margin-bottom: 10px;
        font-size: 16px; 
-   }
-   
-   .perfil-form button {
+}
+
+.perfil-form button {
        font-family: var(--primary-font);
        background-color: var(--primary-color);
        color: var(--white);
@@ -62,29 +62,35 @@
        border-radius: 5px;
        cursor: pointer;
        transition: background-color 0.3s;
-   }
-   
-   .perfil-form button:hover {
-       background-color: var(--primary-color-dark);
-   }
-
-   .perfil-form label {
-       font-family: var(--primary-font); /* Aplica la misma fuente */
-       color: var(--gray-dark); /* Color del texto, puedes ajustar esto según sea necesario */
-       display: block; /* Asegúrate de que cada label esté en su propia línea */
-       margin-bottom: 5px; /* Espacio entre el label y el input */
-       font-size: 16px; /* Asegúrate de que el tamaño de la fuente sea coherente */
 }
 
 .btn{
-       display: inline-block;
-       padding: 10px 20 px;
-       margin: 10px 0;
+       font-family: var(--primary-font);
+       background-color: var(--primary-color);
        color: var(--white);
-       text-decoration: none;
+       border: none;
        border-radius: 5px;
-       font-size: 1.2rem;
+       cursor: pointer;
        text-transform: uppercase;
        transition: background-color 0.3s;
+       font-size: 1.2rem;
+       text-decoration: none;
 }
+
+.btn:hover{
+       background-color: var(--primary-color-dark);
+}
+
+.perfil-form button:hover {
+       background-color: var(--primary-color-dark);
+}
+
+.perfil-form label {
+       font-family: var(--primary-font); 
+       color: var(--gray-dark); 
+       display: block; 
+       margin-bottom: 5px; 
+       font-size: 16px; 
+}
+
 

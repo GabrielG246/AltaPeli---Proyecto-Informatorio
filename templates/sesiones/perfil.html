@@ -12,21 +12,22 @@
               <div class="perfil-form">
                      <!-- Mostrar la imagen de perfil si existe -->
                      {% if user.profile_image %}
-                            <img src="{{ user.profile_image.url }}" alt="Imagen de perfil" style="width:100px; height:100px;">
+                            <img src="{{ user.profile_image.url }}" alt="Imagen de perfil" style="width:150px; height:150px; border-radius: 50%;">
                      {% endif %}
-                     <br><br><br>
                      <p><b>Usuario:</b> {{ user.usuario }}</p>
                      <p><b>Email:</b> {{ user.email }}</p>
               
                      <div class="button-container">
-                            <form method="POST" action="{% url 'editar_perfil' %}">
+                            <!-- <form method="POST" action="{% url 'editar_perfil' %}">
                                    {% csrf_token %}
                                    <button type="submit" class="btn btn-danger">Modificar perfil</button>
-                            </form>
+                            </form> -->
+
+                            <a href="{% url 'editar_perfil' %}" class="btn">Modificar Perfil</a>
 
                             <form method="POST" action="{% url 'logout' %}">
                                    {% csrf_token %}
-                                   <button type="submit" class="btn btn-danger" >Cerrar sesión</button>
+                                   <button type="submit" class="btn" >Cerrar sesión</button>
                             </form>
                      </div>
               </div>
