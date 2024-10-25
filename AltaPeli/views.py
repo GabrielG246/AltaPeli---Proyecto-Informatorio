@@ -11,3 +11,7 @@ def Inicio_View(request):
     
     context={'peliculas': mejores_peliculas, 'series': mejores_series, 'reseñas': reseñas}    
     return render(request, 'index.html', context)
+
+def About_Us(request):
+    return render(request,'about_template.html')
+
