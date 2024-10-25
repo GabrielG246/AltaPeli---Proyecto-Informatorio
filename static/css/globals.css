@@ -37,3 +37,27 @@ body{
     position: absolute;
     top: 0%;
 }
+
+.btn-primary:visited{
+    background-color: var(--bs-primary)
+}
+
+.btn-warning:visited{
+    background-color: var(--bs-warning)
+}
+
+.btn-danger:visited{
+    background-color: var(--bs-danger)
+}
+
+.btn-primary{
+    background-color: var(--bs-primary)
+}
+
+.btn-warning{
+    background-color: var(--bs-warning)
+}
+
+.btn-danger{
+    background-color: var(--bs-danger)
+}

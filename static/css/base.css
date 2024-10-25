@@ -108,7 +108,7 @@
     align-items: center;
     background-color: var(--white);
     margin-top: 80px;
-    min-height: 100vh;
+    min-height: 95vh;
     z-index: 99;
 
     .content{

@@ -11,7 +11,9 @@ urlpatterns = [
     path('login/', views.login_usuario, name='login'),
     path('perfil/', views.perfil_usuario, name='perfil'),
     path('editar_perfil/', views.editar_perfil, name='editar_perfil'),
-    path('logout/', LogoutView.as_view(next_page='login') , name='logout')]
+    path('logout/', LogoutView.as_view(next_page='login') , name='logout'),
+    path('admin_lista_usuarios', views.admin_listar_usuarios, name='admin_usuarios')
+    ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 #Librerias para el perfil de usuario
 from django.contrib.auth.decorators import login_required
 from apps.Peliculas_Series.models import Puntuacion
+from .models import User
 
 
 ## Función para gestionar el registro de usuarios.
@@ -76,7 +77,6 @@ def perfil_usuario(request):
 
 @login_required
 def editar_perfil(request):
-    print(f"Hola! Request method: {request.method}")  # Verifica si el método es POST
     user = request.user
     
     if request.method == 'POST':
@@ -90,3 +90,9 @@ def editar_perfil(request):
         form = FormularioPerfilUsuario(instance=user)
     
     return render(request, 'sesiones/editar_perfil.html', {'form':form})
+
+@login_required
+def admin_listar_usuarios(request):
+    usuarios= User.objects.all()
+    
+    return render(request, 'sesiones/lista_usuarios.html', {'usuarios': usuarios})
