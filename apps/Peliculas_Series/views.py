@@ -214,3 +214,13 @@ def VistaComunidad(request):
     }
     
     return render(request, "peliculas_series/VistaComunidad.html", context)
+
+
+def buscar_pelicula_serie(request):
+    query = request.GET.get('q')  # Obtenemos el término de búsqueda
+    resultados = PeliculaSerie.objects.all()
+
+    if query:
+        resultados = resultados.filter(nombre__icontains=query)  # Filtrar por nombre que contenga el término de búsqueda
+
+    return render(request, 'peliculas_series/resultados_busqueda.html', {'resultados': resultados, 'query': query})

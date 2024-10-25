@@ -40,10 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.Sesiones',
     'AltaPeli',
     'apps.Actores_Directores',
     'apps.Peliculas_Series',
-    'apps.Sesiones',
     'storages'
 ]
 

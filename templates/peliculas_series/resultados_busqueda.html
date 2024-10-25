@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultados de Búsqueda{% endblock %}
+
+{% block contenido %}
+<div class="resultados-container">
+    <h2>Resultados de búsqueda</h2>
+
+    {% if resultados %}
+        <ul class="resultados-lista">
+            {% for resultado in resultados %}
+            <li class="resultado-item">
+                <div class="portada">
+                    <img src="{{ resultado.portada_img.url }}" alt="{{ resultado.nombre }}">
+                </div>
+                <div class="info">
+                    <h3>
+                        <a href="{% url 'detalle_contenido' resultado.id %}">{{ resultado.nombre }}</a>
+                    </h3>
+                    <p><strong>Género:</strong> {{ resultado.genero.nombre }}</p>
+                    <p><strong>Año de estreno:</strong> {{ resultado.anio_estreno|date:"Y" }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se encontraron resultados para tu búsqueda.</p>
+    {% endif %}
+</div>
+{% endblock %}

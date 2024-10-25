@@ -38,13 +38,12 @@
 } */
 
 .login-form input {
-    font-family: var(--primary-font);
+    font-family: var(--seconday-font);
     border: 1px solid var(--gray);
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
     font-size: 16px; 
-    font-family: var(--primary-font);
     text-align: center;
 }
 

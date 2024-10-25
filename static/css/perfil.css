@@ -1,10 +1,60 @@
+/* Containers Generales */
+.perfil-container {
+       display: flex;
+       justify-content: space-between;
+       align-items: flex-start;
+}
+
+.usuario-info {
+       width: 45%;  /* Datos del usuario a la derecha */
+}
+
+.reseñas-info {
+       width: 45%;  /* Reseñas a la izquierda */
+}
+
+/* Contenedor para las reseñas */
+.reseñas-container {
+       display: flex;
+       flex-direction: column;
+       gap: 15px;
+   }
+   
+   .reseña-item {
+       background-color: #f9f9f9;
+       padding: 15px;
+       border-radius: 8px;
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   }
+   
+   .reseña-item h4 a {
+       text-decoration: none;
+       color: #007bff;
+       font-weight: bold;
+       transition: color 0.3s;
+   }
+   
+   .reseña-item h4 a:hover {
+       color: #0056b3;
+   }
+   
+   .reseña-item p {
+       margin: 5px 0;
+   }
+   
+   .reseña-item strong {
+       font-weight: bold;
+   }
+   
+/* --------------------------- */
+
 .perfil-container{
        font-family: var(--primary-font);
        font-size: 40px;
        text-align: center;
        padding: 20px;
        background-color: var(--primary-color-dark);
-       width: 600px;
+       width: 1400px;
        height: 800px;
        margin: 30px;
        border-radius: 25px;
@@ -42,18 +92,18 @@
        font-family: var(--primary-font);
        color: var(--primary-color); 
        margin-bottom: 20px;
-   }
-   
-   .perfil-form input {
+}
+
+.perfil-form input {
        font-family: var(--primary-font);
        border: 1px solid var(--gray);
        border-radius: 5px;
        padding: 10px;
        margin-bottom: 10px;
        font-size: 16px; 
-   }
-   
-   .perfil-form button {
+}
+
+.perfil-form button {
        font-family: var(--primary-font);
        background-color: var(--primary-color);
        color: var(--white);
@@ -62,29 +112,35 @@
        border-radius: 5px;
        cursor: pointer;
        transition: background-color 0.3s;
-   }
-   
-   .perfil-form button:hover {
-       background-color: var(--primary-color-dark);
-   }
-
-   .perfil-form label {
-       font-family: var(--primary-font); /* Aplica la misma fuente */
-       color: var(--gray-dark); /* Color del texto, puedes ajustar esto según sea necesario */
-       display: block; /* Asegúrate de que cada label esté en su propia línea */
-       margin-bottom: 5px; /* Espacio entre el label y el input */
-       font-size: 16px; /* Asegúrate de que el tamaño de la fuente sea coherente */
 }
 
 .btn{
-       display: inline-block;
-       padding: 10px 20 px;
-       margin: 10px 0;
+       font-family: var(--primary-font);
+       background-color: var(--primary-color);
        color: var(--white);
-       text-decoration: none;
+       border: none;
        border-radius: 5px;
-       font-size: 1.2rem;
+       cursor: pointer;
        text-transform: uppercase;
        transition: background-color 0.3s;
+       font-size: 1.2rem;
+       text-decoration: none;
 }
+
+.btn:hover{
+       background-color: var(--primary-color-dark);
+}
+
+.perfil-form button:hover {
+       background-color: var(--primary-color-dark);
+}
+
+.perfil-form label {
+       font-family: var(--primary-font); 
+       color: var(--gray-dark); 
+       display: block; 
+       margin-bottom: 5px; 
+       font-size: 16px; 
+}
+
 

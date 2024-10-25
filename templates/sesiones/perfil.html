@@ -5,30 +5,57 @@
 {% block contenido %}
        <div class="perfil-container">
 
-              <div class="perfil-header">
-                     <h2>Bienvenido!! <br><b>{{ user.nombre }} {{ user.apellido }}</b></h2>
+              <div class="reseñas-info">
+                     <h2>Mis Reseñas</h2>
+                     {% if puntuaciones %}
+                            <div class="reseñas-container">
+                                   {% for puntuacion in puntuaciones %}
+                                          <li>
+                                                 <strong>Película/Serie:</strong> {{ puntuacion.pelicula_serie.nombre }}<br>
+                                                 <strong>Puntaje:</strong> {{ puntuacion.puntaje }}/5<br>
+                                                 <p>{{ puntuacion.comentario }}</p>
+                                                 <form method="POST" style="display:inline;">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="puntuacion_id" value="{{ puntuacion.id }}">
+                                                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esta reseña?');">Eliminar</button>
+                                                 </form>
+                                          </li>
+                                   {% endfor %}
+                     </div>
+                     {% else %}
+                            <p>No tienes reseñas en tu perfil.</p>
+                     {% endif %}
               </div>
 
-              <div class="perfil-form">
-                     <!-- Mostrar la imagen de perfil si existe -->
-                     {% if user.profile_image %}
-                            <img src="{{ user.profile_image.url }}" alt="Imagen de perfil" style="width:100px; height:100px;">
-                     {% endif %}
-                     <br><br><br>
-                     <p><b>Usuario:</b> {{ user.usuario }}</p>
-                     <p><b>Email:</b> {{ user.email }}</p>
-              
-                     <div class="button-container">
-                            <form method="POST" action="{% url 'editar_perfil' %}">
-                                   {% csrf_token %}
-                                   <button type="submit" class="btn btn-danger">Modificar perfil</button>
-                            </form>
+              <div class="usuario-info">
 
-                            <form method="POST" action="{% url 'logout' %}">
-                                   {% csrf_token %}
-                                   <button type="submit" class="btn btn-danger" >Cerrar sesión</button>
-                            </form>
+                     <div class="perfil-header">
+                            <h2>Bienvenido!! <br><b>{{ user.nombre }} {{ user.apellido }}</b></h2>
                      </div>
+       
+                     <div class="perfil-form">
+                            <!-- Mostrar la imagen de perfil si existe -->
+                            {% if user.profile_image %}
+                                   <img src="{{ user.profile_image.url }}" alt="Imagen de perfil" style="width:150px; height:150px; border-radius: 50%;">
+                            {% endif %}
+                            <p><b>Usuario:</b> {{ user.usuario }}</p>
+                            <p><b>Email:</b> {{ user.email }}</p>
+                     
+                            <div class="button-container">
+                                   <!-- <form method="POST" action="{% url 'editar_perfil' %}">
+                                          {% csrf_token %}
+                                          <button type="submit" class="btn btn-danger">Modificar perfil</button>
+                                   </form> -->
+       
+                                   <a href="{% url 'editar_perfil' %}" class="btn">Modificar Perfil</a>
+       
+                                   <form method="POST" action="{% url 'logout' %}">
+                                          {% csrf_token %}
+                                          <button type="submit" class="btn" >Cerrar sesión</button>
+                                   </form>
+                            </div>
+                     </div>
+
               </div>
 
        </div>
