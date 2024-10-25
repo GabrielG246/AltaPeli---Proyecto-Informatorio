@@ -20,7 +20,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
-from .views import Inicio_View
+from .views import Inicio_View, About_Us
 
 
 urlpatterns = [
@@ -30,4 +30,5 @@ urlpatterns = [
     path('listas/', include('apps.Listas.urls')),
     path('peliculas_series/', include('apps.Peliculas_Series.urls')),
     path('actores_directores/', include('apps.Actores_Directores.urls')),
+    path( 'about_us/', About_Us, name='about_us')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, show_indexes=True)

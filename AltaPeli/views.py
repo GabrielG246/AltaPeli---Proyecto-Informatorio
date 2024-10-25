@@ -14,3 +14,7 @@ def Inicio_View(request):
     print(permiso)  
     context={'peliculas': mejores_peliculas, 'series': mejores_series, 'reseñas': reseñas, 'admin': permiso}    
     return render(request, 'index.html', context)
+
+def About_Us(request):
+    return render(request,'about_template.html')
+
