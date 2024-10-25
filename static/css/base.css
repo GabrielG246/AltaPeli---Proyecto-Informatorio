@@ -1,0 +1,234 @@
+.base__header {
+    width: 100%;
+    padding: 0 10%;
+    height: 80px;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+
+    & .base__header_image-contianer {
+        height: 80px;
+        width: 25%;
+
+
+        & .base__header_image {
+            height: 100%;
+        }
+    }
+
+
+    & .base__header_nav {
+        width: 50%;
+        height: 80px;
+
+        ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 0 20%;
+        }
+
+        li {
+            margin: 0 10px;
+
+
+
+
+            a {
+                font-weight: 500;
+                text-decoration: none;
+                color: var(--white);
+                font-size: 1.5em;
+                font-family: var(--primary-font);
+            }
+
+            a:hover {
+                border-bottom: solid 0.1em var(--white);
+            }
+        }
+    }
+
+    & .base__header_user {
+        width: 25%;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+
+        ul {
+            display: flex;
+            justify-content: space-evenly;
+            list-style: none;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            padding-left: 20%;
+
+            li {
+
+
+                a {
+                    font-weight: 500;
+                    text-decoration: none;
+                    color: var(--white);
+                    font-size: 1.5em;
+                    font-family: var(--primary-font);
+                }
+            }
+        }
+
+    }
+}
+
+.header-perfil-container{
+    width: 200px;
+    height: 80px;
+    border-radius: 50%;
+    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-perfil-container img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.main__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--white);
+    margin-top: 80px;
+    min-height: 100vh;
+    z-index: 99;
+
+    .content{
+        flex: 1;
+    }
+}
+
+.base__footer {
+    width: 100%;
+    height: 40px;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    bottom: 0;
+    z-index: 100;
+
+
+    & p {
+        font-weight: bold;
+        font-size: 1.5em;
+        color: var(--white);
+    }
+}
+
+
+.main__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--white);
+    margin-top: 80px;
+    min-height: 100vh;
+    z-index: 99;
+    position: relative;
+    
+}
+
+/* MENSAJES */
+.messages {
+    list-style: none;
+    padding: 0;
+}
+
+.messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.messages .error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.messages .success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+
+/* Estilos para el cuadro de busqueda */
+/* Contenedor general del formulario */
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    background-color: var(--primary-color);
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos del campo de entrada (input) */
+.search-input {
+    flex: 1;
+    font: var(--primary-font);
+    border: none;
+    border-radius: 50px;
+    outline: none;
+    font-size: 1rem;
+    background-color: #fff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.search-input::placeholder {
+    font: var(--primary-font);
+    color: var(--primary-color);
+}
+
+.search-input:focus {
+    background-color: #e8f0fe;
+}
+
+
+/* Estilos para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .search-form {
+        max-width: 100%;
+    }
+    
+    .search-input {
+        padding: 8px 15px;
+    }
+}

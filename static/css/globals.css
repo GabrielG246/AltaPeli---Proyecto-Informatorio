@@ -1,0 +1,39 @@
+:root {
+    --primary-color: #283747;
+    --primary-color-dark: #c1790a;
+    --primary-color-light: #f5ae3c;
+    --white: #ffffff;
+    --gray: #d4d4d4;
+    --gray-dark: #3c3c3c;
+    --black: #000000;
+    --primary-font: "Bebas Neue", sans-serif;
+    --secondary-font: "Oxanium", sans-serif;
+}
+
+html, body{
+    /*font-size: 10px;*/
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content{
+    flex: 1;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.top-0{
+    position: absolute;
+    top: 0%;
+}

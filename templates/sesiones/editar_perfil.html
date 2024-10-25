@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Modificar Perfil{% endblock %}
+
+
+{% block contenido %}
+<div class="modif-container">
+    <div class="modif-header">
+        <h2>Modificar Perfil</h2>
+    </div>
+    
+
+    <div class="modif-form">
+
+        <form method="POST" enctype="multipart/form-data" >
+            {% csrf_token %}
+            {{ form.as_p }}
+            <img id="current-profile-image" src="{{ user.profile_image.url }}" alt="Imagen actual" style="width: 100px; height: 100px; border-radius: 50%;">
+
+            <div class="button-container">
+                <button type="submit" class="btn btn-success">Guardar cambios</button>
+                <a href="{% url 'perfil' %}">
+                    <button type="submit" class="btn btn-success">Volver al perfil</button>
+                </a>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+{%endblock%}

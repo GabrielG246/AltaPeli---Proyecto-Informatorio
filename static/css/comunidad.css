@@ -1,0 +1,15 @@
+.cstm__profile-image{
+    aspect-ratio: 1/1;
+    border: solid 1px gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    height: 100%;
+
+    & img{
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}

@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block contenido %}
+<div>
+
+    <!-- CARROUSEL -->
+    <div class="d-flex justify-content-center b align-items-center col-12 mb-5">
+        <div id="carouselExampleIndicators" class="carousel slide col-7">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'images/ElPadrinoBanner.png' %}" class="d-block w-100 bg-dark border border-dark rounded" alt="Banner-1" style="height: 400px; object-fit: contain;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/GilliganBanner.png' %}" class="d-block w-100 bg-dark border border-dark rounded" alt="Banner-2" style="height: 400px; object-fit: contain;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/HarryPotterBanner.png' %}" class="d-block w-100 bg-dark border border-dark rounded" alt="Banner-3" style="height: 400px; object-fit: contain;">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    
+    
+    <!-- RESEÑAS -->
+    <div class="col-12 d-flex justify-content-center mt-5 pt-5 px-4">
+        <div class="d-flex flex-column">
+
+            <div class="d-flex justify-content-around align-items-center">
+                <h4 class="col-6 fw-semibold">Reseñas </h4>
+                <a href="{% url 'comunidad' %}" class="text-decoration-none text-primary p-0 m-0"> <h5 class="p-0 m-0">Ver más ></h5> </a>
+            </div>
+
+            <div class="row justify-content-center">
+                {% for reseña in reseñas %}
+                <!--CARD-->
+                <div class="card col-3 mx-2 my-2">
+                    <!--CARD HEADER-->
+                    <div class="card-header row d-flex align-items-center position-relative">
+                        <div class="col-1 cstm__profile-image">
+                            <img src="{{ reseña.usuario.profile_image.url }}" alt="Img">
+                        </div>
+                        <div class="col-6 d-flex align-items-center"> <h5 class="fs-5 text-center">{{ reseña.usuario.usuario }}</h5> </div>
+                        <div class="col-5">
+                            <div class="rating d-flex flex-row-reverse justify-content-end py-0 top-0">
+                                {% for i in "54321" %}
+                                <input class="py-0 my-0"  value="{{ i }}" name="puntaje_{{ reseña.id }}" id="star{{ i }}_{{ reseña.id }}" type="radio" {% if reseña.puntaje|stringformat:"d" == i %}checked{% endif %} disabled>
+                                <label title="{{ i }} estrellas" for="star{{ i }}_{{ reseña.id }}" class="me-1 py-0 my-0"></label>
+                                {% endfor %}
+                            </div>
+                        </div>
+        
+                    </div>
+                    <!--CARD BODY-->
+                    <div class="card-body row p-0">
+                        <div class="col-12">
+                            <textarea class="form-control w-100 h-100 col-12" rows="3" placeholder="{{ reseña.comentario }}" disabled style="resize: none;background-color: transparent;border: none;"></textarea>
+                        </div>
+                    </div>
+                    <!--CARD FOOTER-->
+                    <div class="card-footer row">
+                        <div class="col-8 d-flex align-items-center">
+                            <img src="{{ reseña.pelicula_serie.portada_img.url }}" alt="Portada" class="col-2 border rounded">
+                            <h5 class="col-10">{{ reseña.pelicula_serie.nombre }}</h6>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- PELICULAS -->
+    <div class="col-12 d-flex justify-content-center mt-5 pt-5">
+        <div class="d-flex flex-column">
+
+            <div class="d-flex justify-content-between px-1 align-items-center">
+                <h4 class="col-6 fw-semibold">Mejores Películas</h4>
+                <a href="{% url 'listar_contenido' 1 %}" class="z-3 text-decoration-none text-primary p-0 m-0"> <h5 class="p-0 m-0">Ver más ></h5> </a>
+            </div>
+
+            <div class="row justify-content-center g-5">
+                {% for pelicula in peliculas %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center mb-4">
+                    <div class="card" style="max-width: 400px; width: 100%;">
+                        <a href="{% url 'detalle_contenido' pelicula.pk %}">
+                            <img class="card-img-top" src="{{ pelicula.portada_img.url }}" alt="Title" style="max-height: 380px; height: 100%;"/>
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'detalle_contenido' pelicula.pk %}" class="card-title fs-5 p-0 m-0 text-decoration-none">{{ pelicula.nombre }}</a>
+        
+                            {% if titulo == 'Series' %}
+                                <p class="card-text">Temporadas: {{ pelicula.duracion }} </p>
+                            {% else %}
+                                <p class="card-text">Duración: {{ pelicula.duracion }} Minutos </p>
+                            {% endif %}
+                            
+                        </div>
+                        <div class="card-footer">
+                            <!-- Estrellas -->
+                            <div class="d-flex align-items-center justify-content-around ">
+                                <div class="rating col-md-6 col-sm-12 p-0 m-0 d-flex row-reverse flex-row-reverse justify-content-center">
+                                    {% for i in "54321" %}
+                                        <input value="{{ i }}" name="puntaje_{{ pelicula.id }}" id="star{{ i }}_{{ pelicula.id }}" type="radio" {% if pelicula.promedio_puntuacion|floatformat|stringformat:'s' == i %}checked{% endif %} disabled>
+                                        <label title="{{ i }} estrellas" for="star{{ i }}_{{ pelicula.id }}"></label>
+                                    {% endfor %}
+                                </div>
+                                <h6 class="text-center p-0 m-0">{{ pelicula.promedio_puntuacion|floatformat:1 }} / 5</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SERIES -->
+    <div class="col-12 d-flex justify-content-center mt-5">
+        <div class="d-flex flex-column">
+
+            <div class="d-flex justify-content-between px-1 align-items-center">
+                <h4 class="col-6 fw-semibold">Mejores Series</h4>
+                <a href="{% url 'listar_contenido' 2 %}" class="z-3 text-decoration-none text-primary p-0 m-0"> <h5 class="p-0 m-0">Ver más ></h5> </a>
+            </div>
+
+            <div class="row justify-content-center g-5">
+                {% for serie in series %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center mb-4">
+                    <div class="card" style="max-width: 400px; width: 100%;">
+                        <a href="{% url 'detalle_contenido' serie.pk %}">
+                            <img class="card-img-top" src="{{ serie.portada_img.url }}" alt="Title" style="max-height: 380px; height: 100%;"/>
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'detalle_contenido' serie.pk %}" class="card-title fs-5 p-0 m-0 text-decoration-none">{{ serie.nombre }}</a>
+        
+                            {% if titulo == 'Series' %}
+                                <p class="card-text">Temporadas: {{ serie.duracion }} </p>
+                            {% else %}
+                                <p class="card-text">Duración: {{ serie.duracion }} Minutos </p>
+                            {% endif %}
+                            
+                        </div>
+                        <div class="card-footer">
+                            <!-- Estrellas -->
+                            <div class="d-flex align-items-center justify-content-around ">
+                                <div class="rating col-md-6 col-sm-12 p-0 m-0 d-flex row-reverse flex-row-reverse justify-content-center">
+                                    {% for i in "54321" %}
+                                        <input value="{{ i }}" name="puntaje_{{ serie.id }}" id="star{{ i }}_{{ serie.id }}" type="radio" {% if serie.promedio_puntuacion|floatformat|stringformat:'s' == i %}checked{% endif %} disabled>
+                                        <label title="{{ i }} estrellas" for="star{{ i }}_{{ serie.id }}"></label>
+                                    {% endfor %}
+                                </div>
+                                <h6 class="text-center p-0 m-0">{{ serie.promedio_puntuacion|floatformat:1 }} / 5</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
+
+

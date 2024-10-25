@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Emitir Reseña {% endblock %}
+
+{% block contenido %}
+    <div class="container mt-4">
+        <h2>Emite una Reseña</h2>
+        <!-- Card horizontal con imagen y texto -->
+        <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-2">
+            <img src="{{ contenido.portada_img.url }}" class="img-fluid rounded-start" alt="Portada" style="max-height: 25em;">
+            </div>
+            <div class="col-md-6">
+            <div class="card-body">
+                <h5 class="card-title">{{ contenido.nombre }}</h5>
+                <p class="card-text">Este es el primer párrafo debajo del título.</p>
+                <p class="card-text">Este es el segundo párrafo debajo del título.</p>
+            </div>
+            </div>
+        </div>
+        </div>
+  
+
+
+        <!-- Formulario con campo de texto y sistema de calificación -->
+        <form class="d-flex flex-column align-items-start" {% if puntuado %}disabled{% endif %} method="post">
+            {% csrf_token %}
+            <div class="mb-12 col-12">
+                <label for="comentario" class="form-label">Escribe un comentario</label>
+                <textarea id="comentario" name="comentario" class="form-control" maxlength="400" rows="3" placeholder="Máximo 400 caracteres" {% if puntuado %}disabled{% endif %} style="resize: none;">{{ puntuacion.comentario }}</textarea>
+            </div>
+
+            <div class="rating">
+                <input value="5" name="puntaje" id="star5" type="radio" {% if puntuacion.puntaje == 5 %}checked{% endif %} {% if puntuado %}disabled{% endif %}>
+                <label title="5 estrellas" for="star5"></label>
+            
+                <input value="4" name="puntaje" id="star4" type="radio" {% if puntuacion.puntaje == 4 %}checked{% endif %} {% if puntuado %}disabled{% endif %}>
+                <label title="4 estrellas" for="star4"></label>
+            
+                <input value="3" name="puntaje" id="star3" type="radio" {% if puntuacion.puntaje == 3 %}checked{% endif %} {% if puntuado %}disabled{% endif %}>
+                <label title="3 estrellas" for="star3"></label>
+            
+                <input value="2" name="puntaje" id="star2" type="radio" {% if puntuacion.puntaje == 2 %}checked{% endif %} {% if puntuado %}disabled{% endif %}>
+                <label title="2 estrellas" for="star2"></label>
+            
+                <input value="1" name="puntaje" id="star1" type="radio" {% if puntuacion.puntaje == 1 %}checked{% endif %} {% if puntuado %}disabled{% endif %}>
+                <label title="1 estrella" for="star1"></label>
+            </div>
+
+            <button type="submit" class="btn btn-success" {% if puntuado %}disabled{% endif %}>Enviar</button>
+
+        </form>
+
+
+        {% if puntuado %}
+        <p class="--bs-warning-border-subtle text-warning my-0">Ya Puntuaste este Contenido.</p>
+        <p class="--bs-warning-border-subtle text-warning my-0">¿Desea editar su Reseña?</p>
+        <a href="{% url 'editar_resena' puntuacion.pk %}" class="btn btn-warning">Editar</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

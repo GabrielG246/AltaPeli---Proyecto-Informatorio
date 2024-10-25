@@ -1,0 +1,73 @@
+.login-container{
+    font-family: var(--primary-font);
+    font-size: 15px;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--primary-color-dark);
+    width: 500px;
+    height: 575px;
+    margin: 30px;
+    border-radius: 25px;
+}
+
+.login-header{
+    margin-bottom: 15px;
+    padding: 0;
+    background-color: var(--primary-color-dark);
+}
+
+.login-header h2 {
+    font-family: var(--primary-font);
+    font-size: 75px;
+    color: var(--primary-color); 
+    margin-bottom: 45px;
+}
+
+.login-form{
+    background-color: var(--gray);
+    margin: 5px;
+    padding: 15px;
+    border-radius: 10%;
+}
+
+/* .login-form h2 {
+    height: 50%;
+    width: 50%;
+    color: var(--primary-color); 
+    margin-bottom: 50px;
+} */
+
+.login-form input {
+    font-family: var(--seconday-font);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px; 
+    text-align: center;
+}
+
+.login-form button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: var(--primary-font);
+    font-size: 25px;
+}
+
+.login-form button:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.login-form label {
+    font-family: var(--primary-font); 
+    color: var(--gray-dark); 
+    display: block; 
+    margin-bottom: 2.5px;
+    font-size: 28px; 
+}   

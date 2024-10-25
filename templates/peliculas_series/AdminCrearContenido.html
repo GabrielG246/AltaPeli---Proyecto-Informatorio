@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<div class="crearContenido__container">
+
+    <h3 class="fs-1 text-center mt-3" style="font-family: var(--primary-font);">Crear Contenido</h3>
+
+    <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+        {% csrf_token %}
+
+
+        <!--Nombre Input-->
+        <div class="input__container">
+            <label for="input__nombre" class="form-label">Nombre de Película</label>
+            <!--INPUT-->
+            <input type="text" id="input__nombre" name="nombre" class="form-control
+                {% if form.nombre.errors %}is-invalid{% endif %}
+                {% if not form.nombre.errors and form.nombre.value %}is-valid{% endif %}
+                " value="{% if form.nombre.value is not None %}{{ form.nombre.value }}{% endif %}"
+                placeholder="Nombre">
+
+            {% if form.nombre.errors %}
+            <div class="invalid-feedback">
+                Este campo no es Válido.
+            </div>
+            {% else %}
+            <div class="valid-feedback">
+                Campo Válido.
+            </div>
+            {% endif %}
+        </div>
+
+        <!--Duracion Input-->
+        <div class="input__container">
+            <label for="input__duracion" class="form-label">Duracion de Película</label>
+            <!--INPUT-->
+            <input type="number" id="input__duracion" name="duracion" class="form-control"
+                value="{% if form.duracion.value is not None %}{{ form.duracion.value }}{% endif %}"
+                placeholder="Duracion">
+        </div>
+
+        <!--Año de Estreno Input-->
+        <div class="input__container">
+            <label for="input__anio_estreno" class="form-label">Año de Estreno de Película</label>
+            <!--INPUT-->
+            <input type="date" id="input__anio_estreno" name="anio_estreno" class="form-control
+                                                {% if form.anio_estreno.errors %}is-invalid{% endif %}
+                                                {% if not form.anio_estreno.errors and form.anio_estreno.value %}is-valid{% endif %}
+                                                "
+                value="{% if form.anio_estreno.value is not None %}{{ form.anio_estreno.value }}{% endif %}">
+
+            {% if form.anio_estreno.errors %}
+            <div class="invalid-feedback">
+                Este campo no es Válido.
+            </div>
+            {% else %}
+            <div class="valid-feedback">
+                Campo Válido.
+            </div>
+            {% endif %}
+        </div>
+
+
+        <!--Tipo Input-->
+        <div class="input__container">
+            <label for="input_tipo">Seleccionar Tipo de Contenido</label>
+            <!--INPUT-->
+            <select name="tipo" id="input_tipo" class="form-select {% if form.tipo.errors %}is-invalid{% endif %}
+                                                {% if not form.tipo.errors and form.tipo.value %}is-valid{% endif %}">
+                <option>Tipo de Contenido</option>
+                {% for tipo in tipos %}
+                <option value={{ tipo.id }} {% if form.tipo.value|stringformat:"s" == tipo.id|stringformat:"s" %}selected{% endif %}>{{ tipo.nombre }}</option>
+
+                {% endfor %}
+            </select>
+
+            {% if form.tipo.errors %}
+            <div class="invalid-feedback">
+                Debe seleccionar un Tipo.
+            </div>
+            {% else %}
+            <div class="valid-feedback">
+                Campo Válido.
+            </div>
+            {% endif %}
+        </div>
+
+        <!--Director Input-->
+        <div class="input__container">
+            <label for="input_director">Seleccionar Director</label>
+            <!--INPUT-->
+            <select name="director" id="input_director" class="form-select {% if form.director.errors %}is-invalid{% endif %}
+                                                {% if not form.director.errors and form.director.value %}is-valid{% endif %}">
+                <option>Director</option>
+                {% for director in directores %}
+                <option value={{ director.id }} {% if form.director.value|stringformat:"s" == director.id|stringformat:"s" %}selected{% endif %}>{{ director.nombre }} {{director.apellido}}</option>
+                {% endfor %}
+            </select>
+
+            {% if form.director.errors %}
+            <div class="invalid-feedback">
+                Debe seleccionar un director.
+            </div>
+            {% else %}
+            <div class="valid-feedback">
+                Campo Válido.
+            </div>
+            {% endif %}
+        </div>
+
+
+        <!--Genero Input-->
+        <div class="input__container">
+            <label for="input_genero">Seleccionar Genero</label>
+            <!--INPUT-->
+            <select name="genero" id="input_genero" class="form-select {% if form.genero.errors %}is-invalid{% endif %}
+                                                {% if not form.genero.errors and form.genero.value %}is-valid{% endif %}">
+                <option>Genero</option>
+                {% for genero in generos %}
+                <option value={{ genero.id }} {% if form.genero.value|stringformat:"s" == genero.id|stringformat:"s" %}selected{% endif %}>{{ genero.nombre }} {{genero.apellido}}</option>
+                {% endfor %}
+            </select>
+
+            {% if form.genero.errors %}
+            <div class="invalid-feedback">
+                Debe seleccionar un genero.
+            </div>
+            {% else %}
+            <div class="valid-feedback">
+                Campo Válido.
+            </div>
+            {% endif %}
+        </div>
+
+
+        <!--Portada Input-->
+        <div class="input__container">
+            <label for="input_portada">Portada de Película</label>
+            <!--INPUT-->
+            <div class="input-group">
+                <input type="file" class="form-control" id="input__container" name="portada_img">
+                <label for="input__container" class="input-group-text">Upload</label>
+            </div>
+        </div>
+
+        <!--Url Input-->
+        <div class="input__container">
+            <label for="input__trailer_url" class="form-label">Trailer de Película</label>
+            <!--INPUT-->
+            <input
+                type="text"
+                id="input__trailer_url"
+                name="trailer_url"
+                class="form-control"
+                value="{% if form.trailer_url.value is not None %}{{ form.trailer_url.value }}{% endif %}"
+                placeholder="URL de Trailer"
+            >
+        </div>
+
+
+
+        <button type="submit" class="btn btn-success">Enviar</button>
+    </form>
+</div>
+{% endblock %}
