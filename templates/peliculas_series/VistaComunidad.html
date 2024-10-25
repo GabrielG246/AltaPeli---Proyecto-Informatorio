@@ -40,6 +40,8 @@
                     <div class="col-4 d-flex align-items-center">
                         {% if reseña.usuario == usuario %}
                             <a href="{% url 'editar_resena' reseña.pk %}" class="text-primary p-0 m-0 mx-2 text-decoration-none focus-ring link-underline-hover">Editar</a>
+                        {% endif %}
+                        {% if user.groups.first.name == 'Contribuidores' or user.is_superuser or reseña.usuario == usuario %}
                             <a href="{% url 'eliminar_resena' reseña.pk %}" class="text-danger p-0 m-0 mx-2 text-decoration-none focus-ring link-underline-hover">Eliminar</a>
                         {% endif %}
                     </div>

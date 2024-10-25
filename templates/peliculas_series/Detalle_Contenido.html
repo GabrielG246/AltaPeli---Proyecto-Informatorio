@@ -3,7 +3,7 @@
 {% block titulo %}AltaPeli - Detalle{% endblock %}
 
 {% block contenido %}
-<div class="container">
+<div class="container d-flex flex-column">
     <h3 class="fs-1 fw-bold text-center" style="font-family: var(--primary-font);">{{ contenido.nombre }}</h3>
     <div class="row">
         <div class="col-md-4">
@@ -52,8 +52,12 @@
                 </div>
             </div>
 
+            {% if user.is_authenticated %}
+                <a href="{% url 'crear_resena' contenido.pk %}" class="my-3 btn btn-warning">Puntuar</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="my-3 btn btn-warning">Puntuar</a>
 
-            <a href="{% url 'crear_resena' contenido.pk %}" class="my-3 btn btn-warning">Puntuar</a>
+            {% endif %}
 
             
         </div>

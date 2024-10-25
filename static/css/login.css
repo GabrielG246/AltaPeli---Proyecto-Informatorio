@@ -1,5 +1,5 @@
 .login-container{
-    font-family: var(--primary-font);
+    font-family: var(--secondary-font);
     font-size: 15px;
     text-align: center;
     padding: 20px;
@@ -17,7 +17,7 @@
 }
 
 .login-header h2 {
-    font-family: var(--primary-font);
+    font-family: var(--secondary-font);
     font-size: 75px;
     color: var(--primary-color); 
     margin-bottom: 45px;
@@ -56,7 +56,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-family: var(--primary-font);
+    font-family: var(--secondary-font);
     font-size: 25px;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .login-form label {
-    font-family: var(--primary-font); 
+    font-family: var(--secondary-font); 
     color: var(--gray-dark); 
     display: block; 
     margin-bottom: 2.5px;

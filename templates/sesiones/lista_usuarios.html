@@ -17,27 +17,41 @@
             <p class="mb-1"> <span class="fw-semibold">Nombre Completo:</span> {{ usuario.nombre }} {{ usuario.apellido }} </p>
             <p class="mb-1"> <span class="fw-semibold">Email:</span> {{ usuario.email }} </p>
             <p class="mb-1"> <span class="fw-semibold">Estado:</span> {% if usuario.is_active == True %} Activo {% else %} Inactivo {% endif %} </p>
+            <p class="mb-1"> <span class="fw-semibold">Grupo:</span> {% if usuario.groups.first.name == 'Contribuidores' %} Contribuidores {% else %} None {% endif %} </p>
         </div>
 
         <!-- Lado Derecho: 3 botones en fila -->
-        <div class="d-flex align-items-center pr-3 ms-5 me-2 position-absolute end-0 bottom-0">
-            <a href="" class="btn btn-primary btn-sm me-3 d-flex justify-content-center align-items-center" style="aspect-ratio: 1/1;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
-                </svg>
+        {% if not usuario.is_superuser %}
+        <div class="d-flex flex-column align-items-center pr-3 ms-5 me-2 position-absolute end-0 bottom-0">
+            {% if usuario.is_active %}
+            <!--DESACTIVAR USUARIO-->
+            <a href="{% url 'desactivar_usuario' usuario.pk %}" class="btn btn-danger btn-sm me-3 d-flex justify-content-center align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-down" viewBox="0 0 16 16"><path d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7m.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/><path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/></svg>
+                Desactivar
             </a>
-            <a href="" class="btn btn-danger btn-sm me-3 d-flex justify-content-center align-items-center" style="aspect-ratio: 1/1;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                </svg>
+            {% else %}
+            <!--ACTIVAR USUARIO-->
+            <a href="{% url 'activar_usuario' usuario.pk %}" class="btn btn-primary btn-sm me-3 d-flex justify-content-center align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-up" viewBox="0 0 16 16"><path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/><path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/></svg>
+                Activar
             </a>
-            <a href="" class="btn btn-warning btn-sm d-flex justify-content-center align-items-center" style="aspect-ratio: 1/1;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
-                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
-                </svg>
+            {% endif %}
+
+            {% if not usuario.groups.first.name == 'Contribuidores' %}
+            <!--AGREGAR AL GRUPO-->
+            <a href="{% url 'agregar_contribuidor' usuario.pk %}" class="btn btn-success btn-sm d-flex justify-content-center align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-dash" viewBox="0 0 16 16"><path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/><path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/></svg>
+                Contribuidor
             </a>
+            {% else %}
+            <!--ELIMINAR DEL GRUPO-->
+            <a href="{% url 'eliminar_contribuidor' usuario.pk %}" class="btn btn-warning btn-sm d-flex justify-content-center align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16"><path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/><path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/></svg>
+                Eliminar
+            </a>
+            {% endif %}
         </div>
+        {% endif %}
     </div>
     {% endfor %}
 </div>

@@ -50,6 +50,10 @@ body{
     background-color: var(--bs-danger)
 }
 
+.btn-success:visited{
+    background-color: var(--bs-success)
+}
+
 .btn-primary{
     background-color: var(--bs-primary)
 }
@@ -60,4 +64,8 @@ body{
 
 .btn-danger{
     background-color: var(--bs-danger)
+}
+
+.btn-success{
+    background-color: var(--bs-success)
 }

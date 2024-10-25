@@ -2,7 +2,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, FormView, UpdateView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Sum, Count
 
@@ -11,6 +11,10 @@ from .forms import FormularioCrearContenido, FormularioPuntuarContenido
 
 from .models import Tipo, Genero, Puntuacion
 from apps.Actores_Directores.models import Director
+
+
+def permiso_de_administrador(user):
+    return user.is_superuser or user.groups.filter(name='Contribuidores').exists()
 
 
 
@@ -28,11 +32,11 @@ def PeliculasSeriesView(request):
 # <==== CRUD CONTENIDO ADMINISTRADOR ====> #
 
 # Vista CREATE Contenido (Contribuidor)
-class AdminVistaCrearContenido(CreateView):
+class AdminVistaCrearContenido(UserPassesTestMixin, CreateView):
     model= PeliculaSerie
     form_class= FormularioCrearContenido
     template_name= 'peliculas_series/AdminCrearContenido.html'
-    success_url= reverse_lazy('admin_crear_contenido')
+    success_url= reverse_lazy('comunidad')
     
     def form_valid(self, form):
         return super().form_valid(form)
@@ -46,22 +50,29 @@ class AdminVistaCrearContenido(CreateView):
         context['generos']= Genero.objects.all()
         context['directores']= Director.objects.all()
         return context
+    
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='Colaborador').exists()
 
 # Vista DELETE Contenido (Contribuidor)
-class AdminVistaEliminarContenido(DeleteView):
+class AdminVistaEliminarContenido(UserPassesTestMixin, DeleteView):
     model= PeliculaSerie
     template_name= 'peliculas_series/AdminEliminarContenido.html'
     success_url= reverse_lazy('admin_listar_contenido')
     
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='Colaborador').exists()
+    
     
 # Vista READ Contenido (Contribuidor)
+@user_passes_test(permiso_de_administrador)
 def AdminVistaListarContenido(request):
     contenido= PeliculaSerie.objects.all()
     context= {'contenidos': contenido}
     return render(request, 'peliculas_series/AdminListarContenido.html', context)
 
 # Vista UPDATE Contenido (Contribuidor)
-class AdminVistaModificarContenido(UpdateView):
+class AdminVistaModificarContenido(UserPassesTestMixin, UpdateView):
     model= PeliculaSerie
     form_class= FormularioCrearContenido
     template_name= 'peliculas_series/AdminEditarContenido.html'
@@ -79,6 +90,9 @@ class AdminVistaModificarContenido(UpdateView):
         context['directores']= Director.objects.all()
         
         return context
+    
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='Colaborador').exists()
     
 
 # <==== VISUALIZACIÓN DE CONTENIDO (USUARIOS) ====> #
@@ -171,15 +185,22 @@ class VistaEliminarReseña(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         
         reseña= Puntuacion.objects.get(id=pk)
         
-        if reseña.usuario.id == self.request.user.id:
+        if reseña.usuario.id == self.request.user.id or self.request.user.is_superuser or self.request.user.groups.filter(name='Contribuidor').exists():
             return True
+
         return False
             
+            
+    
 
+    
+@login_required
 def VistaModificarReseña(request, pk):
     reseña= Puntuacion.objects.get(id=pk)
     
-    
+    if not (request.user == reseña.usuario):
+        #Por falta de tiempo solo va a redirigir al Home
+        return redirect('PaginaPrincipal')
     if request.method == 'POST':
         post_data= request.POST.copy()
         
