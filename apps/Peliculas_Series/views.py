@@ -128,7 +128,7 @@ def VistaDetalleContenido(request, pk):
         'usuario': usuario
     }
     
-    return render(request, 'peliculas_Series/Detalle_Contenido.html', context)
+    return render(request, 'peliculas_series/Detalle_Contenido.html', context)
 
 
 # <==== CRUD EVENTO ====> #
