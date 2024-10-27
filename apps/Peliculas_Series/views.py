@@ -104,7 +104,7 @@ def VistaListarContenido(request, pk):
     
 
     
-    context= {'contenidos': contenido, 'titulo': str(tipo[0])}
+    context= {'contenidos': contenido, 'titulo': tipo}
     return render(request, 'peliculas_series/Listar_Contenido.html', context)
 
 # Vista Detalle de Contenido (Usuario)

@@ -1,9 +1,9 @@
 /* Estilos generales para el contenedor */
 .resultados-container {
-       max-width: 1200px;
-       margin: 0 auto;
-       padding: 20px;
-   }
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
    
    /* Título */
    .resultados-container h2 {

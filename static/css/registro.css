@@ -1,5 +1,5 @@
 .registro-container{
-    font-family: var(--primary-font);
+    font-family: var(--secondary-font);
     font-size: 15px;
     text-align: center;
     padding: 20px;
@@ -16,17 +16,17 @@
 }
 
 .registro-header h2{
-    font-family: var(--primary-font);
+    font-family: var(--secondary-font);
     font-size: 75px;
     color: var(--primary-color);
     margin-bottom: 25px;
 }
 
 .registro-form{
-       background-color: var(--gray);
-       margin: 5px;
-       padding: 15px;
-       border-radius: 25px;
+    background-color: var(--gray);
+    margin: 5px;
+    padding: 15px;
+    border-radius: 25px;
 }
 
 
@@ -36,12 +36,12 @@
     padding: 7px;
     margin-bottom: 7px;
     font-size: 16px; 
-    font-family: var(--primary-font);
+    font-family: var(--secondary-font);
     text-align: center;
 }
 
 .registro-form button {
-    font-family: var(--primary-font);
+    font-family: var(--secondary-font);
     background-color: var(--primary-color);
     color: var(--white);
     padding: 10px;
@@ -58,7 +58,7 @@
 }
 
 .registro-form label {
-       font-family: var(--primary-font); 
+       font-family: var(--secondary-font); 
        color: var(--gray-dark); 
        display: block; 
        margin-bottom: 5px; 
