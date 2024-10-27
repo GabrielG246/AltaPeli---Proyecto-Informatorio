@@ -27,10 +27,10 @@
             <div class="card h-100">
                 <div class="card-body">
                     <h3 class="card-title fs-5 text-center" style="font-family: var(--primary-font);">Trailer</h3>
-                    <video controls style="width: 100%;"> 
+                    <!--<video controls style="width: 100%;"> 
                         <source src="{{ contenido.trailer_url }}" type="video/mp4">
                         Your browser does not support the video tag.
-                    </video>
+                    </video>-->
                     <div class="d-flex">
                         <p><span class="fw-bold">Duracion:</span> {% if contenido.tipo.nombre == "Peliculas" %} {{contenido.duracion}} Minutos {% else %} {{contenido.duracion}} Temporadas {%endif%}</p> 
                     </div>
@@ -76,7 +76,7 @@
                 <div class="col-5">
                     <div class="rating d-flex flex-row-reverse justify-content-end py-0 top-0">
                         {% for i in "54321" %}
-                        <input class="py-0 my-0"  value="{{ i }}" name="puntaje_{{ reseña.id }}" id="star{{ i }}_{{ reseña.id }}" type="radio" {% if reseña.puntaje|stringformat:"d" == i %}checked{% endif %} disabled>
+                        <input class="py-0 my-0"  value="{{ i }}" name="puntaje_{{ reseña.id }}" id="star{{ i }}_{{ reseña.id }}" type="radio" {% if reseña.puntaje|stringformat:"s" == i %}checked{% endif %} disabled>
                         <label title="{{ i }} estrellas" for="star{{ i }}_{{ reseña.id }}" class="me-1 py-0 my-0"></label>
                         {% endfor %}
                     </div>

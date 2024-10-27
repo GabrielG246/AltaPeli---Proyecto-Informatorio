@@ -52,7 +52,7 @@ class AdminVistaCrearContenido(UserPassesTestMixin, CreateView):
         return context
     
     def test_func(self):
-        return self.request.user.is_superuser or self.request.user.groups.filter(name='Colaborador').exists()
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='Contribuidores').exists()
 
 # Vista DELETE Contenido (Contribuidor)
 class AdminVistaEliminarContenido(UserPassesTestMixin, DeleteView):
@@ -61,7 +61,7 @@ class AdminVistaEliminarContenido(UserPassesTestMixin, DeleteView):
     success_url= reverse_lazy('admin_listar_contenido')
     
     def test_func(self):
-        return self.request.user.is_superuser or self.request.user.groups.filter(name='Colaborador').exists()
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='Contribuidores').exists()
     
     
 # Vista READ Contenido (Contribuidor)
@@ -92,7 +92,7 @@ class AdminVistaModificarContenido(UserPassesTestMixin, UpdateView):
         return context
     
     def test_func(self):
-        return self.request.user.is_superuser or self.request.user.groups.filter(name='Colaborador').exists()
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='Contribuidores').exists()
     
 
 # <==== VISUALIZACIÓN DE CONTENIDO (USUARIOS) ====> #
@@ -112,10 +112,8 @@ def VistaDetalleContenido(request, pk):
     contenido = PeliculaSerie.objects.get(id=pk)
     reseñas = Puntuacion.objects.filter(pelicula_serie=contenido)
     
-    # Calcular el promedio de los puntajes directamente desde la queryset
+
     puntaje_promedio = Puntuacion.objects.filter(pelicula_serie=contenido).aggregate(promedio_puntaje=Avg('puntaje'))
-    
-    # Obtener el promedio y manejar el caso donde no haya reseñas
     puntuacion = round(puntaje_promedio['promedio_puntaje']) if puntaje_promedio['promedio_puntaje'] is not None else 0
     
     if request.user.is_authenticated:
