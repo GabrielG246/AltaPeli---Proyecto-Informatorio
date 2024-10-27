@@ -27,10 +27,10 @@
             <div class="card h-100">
                 <div class="card-body">
                     <h3 class="card-title fs-5 text-center" style="font-family: var(--primary-font);">Trailer</h3>
-                    <!--<video controls style="width: 100%;"> 
+                    <video controls style="width: 100%;"> 
                         <source src="{{ contenido.trailer_url }}" type="video/mp4">
                         Your browser does not support the video tag.
-                    </video>-->
+                    </video>
                     <div class="d-flex">
                         <p><span class="fw-bold">Duracion:</span> {% if contenido.tipo.nombre == "Peliculas" %} {{contenido.duracion}} Minutos {% else %} {{contenido.duracion}} Temporadas {%endif%}</p> 
                     </div>
