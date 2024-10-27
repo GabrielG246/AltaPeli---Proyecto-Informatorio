@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, FormView, UpdateView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Avg
 
 from .models import PeliculaSerie, Tipo
 from .forms import FormularioCrearContenido, FormularioPuntuarContenido
@@ -109,24 +109,26 @@ def VistaListarContenido(request, pk):
 
 # Vista Detalle de Contenido (Usuario)
 def VistaDetalleContenido(request, pk):
-    contenido= PeliculaSerie.objects.get(id=pk)
-    reseñas= Puntuacion.objects.filter(pelicula_serie=contenido)
-    puntaje_reseñas = Puntuacion.objects.filter(pelicula_serie=contenido).aggregate(total_puntaje=Sum('puntaje'))
-    cant_reseñas = Puntuacion.objects.filter(pelicula_serie=contenido).aggregate(total_reseñas=Count('id'))
+    contenido = PeliculaSerie.objects.get(id=pk)
+    reseñas = Puntuacion.objects.filter(pelicula_serie=contenido)
     
-    total_puntaje = puntaje_reseñas['total_puntaje'] or 0
-    total_reseñas = cant_reseñas['total_reseñas'] or 1
+    # Calcular el promedio de los puntajes directamente desde la queryset
+    puntaje_promedio = Puntuacion.objects.filter(pelicula_serie=contenido).aggregate(promedio_puntaje=Avg('puntaje'))
     
-    puntuacion= round(total_puntaje/total_reseñas)
+    # Obtener el promedio y manejar el caso donde no haya reseñas
+    puntuacion = round(puntaje_promedio['promedio_puntaje']) if puntaje_promedio['promedio_puntaje'] is not None else 0
     
-    usuario= request.user
+    if request.user.is_authenticated:
+        usuario = request.user
+    else: 
+        usuario = 0
 
-    context= {
+    context = {
         'contenido': contenido,
         'reseñas': reseñas,
         'puntuacion': puntuacion,
         'usuario': usuario
-        }
+    }
     
     return render(request, 'peliculas_Series/Detalle_Contenido.html', context)
 
